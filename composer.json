@@ -1,0 +1,22 @@
+{
+	"name": "efw/mvc",
+	"require": {
+		"php": ">=5.3"
+	},
+	"minimum-stability": "alpha",
+	"authors":[
+		{
+			"name": "Igor Souza",
+			"email": "igor.souza.webmaster@gmail.com"
+		}
+	],
+	"autoload": {
+		"psr-0": {
+			"EFW": "vendor",
+			"App": "/"
+		}
+	},
+	"config": {
+		"bin-dir": "bin"
+	}
+}
