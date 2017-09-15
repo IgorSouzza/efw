@@ -13,9 +13,11 @@ class Init extends Bootstrap
 	*/
 	protected function initRoutes()
 	{
-		$ar['home']      = array('route' => '/', 'controller' => 'SiteHomeController', 'action' => 'index');
-		$ar['admin']     = array('route' => '/admin', 'controller' => 'AdminLoginController', 'action' => 'index');
-		$ar['admin_dash']  = array('route' => '/admin/dash', 'controller' => 'AdminDashBoardController', 'action' => 'index');
+		$ar['home'] = array('route' => '/', 'controller' => 'SiteHomeController', 'action' => 'index');
+		$ar['admin'] = array('route' => '/admin', 'controller' => 'AdminLoginController', 'action' => 'index');
+		$ar['admin-dash'] = array('route' => '/admin/dash', 'controller' => 'AdminDashBoardController', 'action' => 'index');
+		$ar['admin-dash-produtos'] = array('route' => '/admin/dash/produtos', 'controller' => 'AdminProdutosController', 'action' => 'index');
+		$ar['admin-dash-produtos-create'] = array('route' => '/admin/dash/produtos/create', 'controller' => 'AdminProdutosController', 'action' => 'create');
 		$this->setRoutes($ar);
 	}
 
@@ -24,7 +26,7 @@ class Init extends Bootstrap
 	*/
 	public static function getDb()
 	{
-		$db = new \PDO("mysql:host=localhost;dbname=efw;", "root", "root");
+		$db = new \PDO("mysql:host=" . DB_HOST . ";dbname=" . DB_NAME . ";", DB_LOGIN, DB_PASS);
 		return $db;
 	}
 }

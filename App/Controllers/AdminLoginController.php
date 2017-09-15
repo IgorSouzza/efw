@@ -9,7 +9,7 @@ class AdminLoginController extends Action
 	public function index()
 	{
 		$produto = Container::getClass("Product");
-		$produto->insert($_POST);
-		$this->render('Admin.index');
+		//$produto->insert($_POST);
+		$this->render('Admin.login');
 	}
 }
