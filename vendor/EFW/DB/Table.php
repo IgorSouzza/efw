@@ -58,7 +58,7 @@ abstract class Table
 		$stmt->bindParam(":id", $id);
 		$stmt->execute();
 
-		$res = $stmt->fetch();
+		$res = $stmt->fetch(\PDO::FETCH_ASSOC);
 		return $res;
 	}
 
@@ -71,5 +71,16 @@ abstract class Table
 		$stmt = $this->db->prepare($sql);
 		$stmt->bindParam(':id', $id, \PDO::PARAM_INT);
 		$stmt->execute();
+	}
+
+	public function checkLogin($user, $pass)
+	{
+		$stmt = $this->db->prepare("SELECT * FROM {$this->table} WHERE user_email = :email AND user_pass = :pass");
+		$stmt->bindParam(":email", $user);
+		$stmt->bindParam(":pass", $pass);
+		$stmt->execute();
+
+		$res = $stmt->fetch(\PDO::FETCH_ASSOC);
+		return $res;
 	}
 }

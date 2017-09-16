@@ -6,4 +6,9 @@
   <input type="submit" value="Entrar">
 </form>
 
-<?php $this->view->teste = filter_input_array(INPUT_POST) ?>
+<?php
+if(empty($_SESSION['userlogin']) && !empty($_POST))
+	$this->login(filter_input_array(INPUT_POST));
+elseif(!empty($_SESSION['userlogin']) && $_SESSION['userlogin']['user_level'] >= 3)
+	header("Location: /admin/dash");
+?>
