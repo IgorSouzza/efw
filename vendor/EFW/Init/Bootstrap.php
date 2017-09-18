@@ -10,6 +10,7 @@ define("DB_HOST", "localhost");
 define("DB_NAME", "efw");
 define("DB_LOGIN", "root");
 define("DB_PASS", "root");
+define("ADMIN_LEVEL", 3);
 
 abstract class Bootstrap
 {
@@ -38,16 +39,32 @@ abstract class Bootstrap
 			if(substr($url, -1) === "/")
 				$url = substr($url, 0, -1);
 		}
+		
+		//Variable to get URL ID, in case of delete and update function.
+		$id = null;
 
 		//If URL exists in routes array, call the action.
 		array_walk($this->routes, function($route) use($url){
+			//If exists word 'delete' in route array, execute this
+			if(strpos($route['route'], 'delete') !== false){
+				//Get numbers in url and put in final route delete array
+				$id = filter_var($url, FILTER_SANITIZE_NUMBER_INT);
+				$route['route'] .= $id;
+			}
 			if($url == $route['route'])
 			{
-				$class = "App\\Controllers\\" . $route['controller'];
-				$action = $route['action'];
-				$controller = new $class;
-				$controller->{$route['action']}();
-			}
+				//If exists a id in URL and in route, put this id in action parameter 
+				if(!empty($id) && strpos($route['route'], $id) !== false){
+					$class = "App\\Controllers\\" . $route['controller'];
+					$controller = new $class;
+					$controller->{$route['action']}((int)$id);
+				}
+				else{
+					$class = "App\\Controllers\\" . $route['controller'];
+					$controller = new $class;
+					$controller->{$route['action']}();
+				}
+			}		
 		});
 	}
 

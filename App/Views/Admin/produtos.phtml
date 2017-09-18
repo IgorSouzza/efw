@@ -1,7 +1,10 @@
-<?php
-$this->checkPermission($_SESSION);
-?>
 <h1>Produtos</h1>
 <h2>Administracao de produtos</h2>
 
 <a href="/admin/dash/produtos/create">Cadastrar novo produto</a>
+<br>
+<?php foreach ($this->view->produtos as $produto):
+	echo "<ul><li><a href='/admin/dash/produtos/delete/{$produto['id']}'>{$produto['produto_nome']}</a></li></ul>"
+?>
+<?php endforeach; ?>
+

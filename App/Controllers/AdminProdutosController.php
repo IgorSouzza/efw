@@ -3,22 +3,38 @@
 namespace App\Controllers;
 use \EFW\Controller\Action;
 use \EFW\DI\Container;
+use \EFW\Auth\Auth;
 
 class AdminProdutosController extends Action
 {
+	public function __construct()
+	{
+		parent::__construct();
+		Auth::authCheck();
+	}
+
 	public function index()
 	{
+		$prod = Container::getClass("Product");
+		$this->view->produtos = $prod->fetchAll();
+		
 		$this->render('Admin.produtos');
 	}
 
 	public function create()
 	{
-		$produto = Container::getClass("Product");
-		if(!empty($_POST)){
-			$this->view->cadastraProduto = filter_input_array(INPUT_POST);
-			$produto->insert($this->view->cadastraProduto);
-			echo "cadastrou";
-		}
 		$this->render('Admin.produtos-create');
+		if(!empty($_POST)){
+			$produto = Container::getClass("Product");
+			$this->view->insertProduct = filter_input_array(INPUT_POST);
+			$produto->insert($this->view->insertProduct);
+			echo "cadastrou";
+        }
+	}
+
+	public function delete($id)
+	{	
+		$prod = Container::getClass("Product");
+		$prod->delete($id);
 	}
 }

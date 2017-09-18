@@ -28,7 +28,7 @@ abstract class Table
 			$str = str_replace(":", "", implode(',',$this->params));
 			$str2 = implode(",", $this->params);
 			$finalValues = array_values($values);
-			$sql = "INSERT INTO efw_products ({$str}) VALUES ({$str2})";
+			$sql = "INSERT INTO {$this->table} ({$str}) VALUES ({$str2})";
 			$stmt = $this->db->prepare($sql);
 			foreach ($this->params as $i => $param) {
 				$stmt->bindParam($param, $finalValues[$i]);
@@ -73,9 +73,26 @@ abstract class Table
 		$stmt->execute();
 	}
 
-	public function checkLogin($user, $pass)
+	/*
+	* Check if digited user and pass matches with Database
+	*/
+	public function checkLogin(string $user, string $pass)
 	{
 		$stmt = $this->db->prepare("SELECT * FROM {$this->table} WHERE user_email = :email AND user_pass = :pass");
+		$stmt->bindParam(":email", $user);
+		$stmt->bindParam(":pass", $pass);
+		$stmt->execute();
+
+		$res = $stmt->fetch(\PDO::FETCH_ASSOC);
+		return $res;
+	}
+
+	/*
+	* Function to get user level mainly. But it can be used to get other values
+	*/
+	public function getValueFromDb(string $value, string $user, string $pass)
+	{
+		$stmt = $this->db->prepare("SELECT {$value} FROM {$this->table} WHERE user_email = :email AND user_pass = :pass");
 		$stmt->bindParam(":email", $user);
 		$stmt->bindParam(":pass", $pass);
 		$stmt->execute();
