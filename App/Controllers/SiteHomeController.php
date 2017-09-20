@@ -12,6 +12,6 @@ class SiteHomeController extends Action
 
 	public function index()
 	{
-		$this->render('index');
+		$this->render("index", array('name' => 'ingao'));
 	}
 }

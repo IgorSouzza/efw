@@ -15,16 +15,20 @@ class Action
 	}
 
 	/*
-	* This function get class action and execute in view.
+	* Call Twig Engine loader and return the view
 	*/
-	public function render($view)
+	public function render(string $view, array $data = null)
 	{
-		$viewStr = str_replace(".", "/", $view);
-		$path = '../App/Views/' . $viewStr . '.phtml';
+		$loader = new \Twig_Loader_Filesystem(__DIR__ . '/../../../App/Views/');
+		$twig = new \Twig_Environment($loader);
 
-		if(file_exists($path))
-			include_once $path;
+		//String handling
+		$newStringView = str_replace(".", "/", $view);
+		$newStringView .= '.phtml';
+
+		if(!empty($data))
+			echo $twig->render($newStringView, $data);
 		else
-			echo "View not found!";
+			echo $twig->render($newStringView, array('' => ''));
 	}
 }

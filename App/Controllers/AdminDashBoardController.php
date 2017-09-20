@@ -15,6 +15,9 @@ class AdminDashBoardController extends Action
 	
 	public function index()
 	{
-		$this->render('Admin.dashboard');
+		$u = Container::getClass("User");
+		$user = $u->find(Auth::getId());
+
+		$this->render("Admin.dashboard", array("nome" => $user));
 	}
 }

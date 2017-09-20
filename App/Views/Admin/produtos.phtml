@@ -3,8 +3,7 @@
 
 <a href="/admin/dash/produtos/create">Cadastrar novo produto</a>
 <br>
-<?php foreach ($this->view->produtos as $produto):
-	echo "<ul><li><a href='/admin/dash/produtos/delete/{$produto['id']}'>{$produto['produto_nome']}</a></li></ul>"
-?>
-<?php endforeach; ?>
+{% for prod in prods %}
+	<li>{{prod.produto_nome}}</li>
+{% endfor %}
 

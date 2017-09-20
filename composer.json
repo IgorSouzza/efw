@@ -1,7 +1,8 @@
 {
 	"name": "efw/mvc",
 	"require": {
-		"php": ">=5.3"
+		"php": ">=5.3",
+		"twig/twig": "^2.0"
 	},
 	"minimum-stability": "alpha",
 	"authors":[
@@ -11,9 +12,9 @@
 		}
 	],
 	"autoload": {
-		"psr-0": {
-			"EFW": "vendor",
-			"App": "/"
+		"psr-4": {
+			"EFW\\": "vendor",
+			"App\\": "App"
 		}
 	},
 	"config": {

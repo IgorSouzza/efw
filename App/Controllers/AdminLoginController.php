@@ -18,7 +18,7 @@ class AdminLoginController extends Action
 
 	public function index()
 	{
-		$this->render('Admin.login');
+		$this->render("Admin.login");
 		$this->checkLogin();
 	}
 

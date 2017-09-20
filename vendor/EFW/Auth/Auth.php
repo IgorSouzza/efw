@@ -22,4 +22,14 @@ class Auth
 			die("<b>Acesso negado!</b> Faça login para acessar!");
 		}
 	}
+
+	public static function getId()
+	{
+		if(!empty($_SESSION['userlogin'])){
+			$user = Container::getClass("User");
+			$id = $user->getValueFromDb("id", $_SESSION['userlogin']['user_email'], $_SESSION['userlogin']['user_pass']);
+
+			return $id['id'];
+		}
+	}
 }

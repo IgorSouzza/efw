@@ -16,9 +16,9 @@ class AdminProdutosController extends Action
 	public function index()
 	{
 		$prod = Container::getClass("Product");
-		$this->view->produtos = $prod->fetchAll();
+		$prods = $prod->fetchAll();
 		
-		$this->render('Admin.produtos');
+		$this->render('Admin.produtos', array("prods" => $prods));
 	}
 
 	public function create()
