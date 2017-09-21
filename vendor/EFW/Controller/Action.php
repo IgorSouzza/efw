@@ -19,12 +19,12 @@ class Action
 	*/
 	public function render(string $view, array $data = null)
 	{
-		$loader = new \Twig_Loader_Filesystem(__DIR__ . '/../../../App/Views/');
+		$loader = new \Twig_Loader_Filesystem(BASE_VIEW);
 		$twig = new \Twig_Environment($loader);
 
 		//String handling
 		$newStringView = str_replace(".", "/", $view);
-		$newStringView .= '.phtml';
+		$newStringView .= '.html.twig';
 
 		if(!empty($data))
 			echo $twig->render($newStringView, $data);

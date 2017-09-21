@@ -11,6 +11,8 @@ define("DB_NAME", "efw");
 define("DB_LOGIN", "root");
 define("DB_PASS", "root");
 define("ADMIN_LEVEL", 3);
+define("BASE_PATH", $_SERVER['DOCUMENT_ROOT'] . "/");
+define("BASE_VIEW", $_SERVER['DOCUMENT_ROOT'] . "/App/Views/");
 
 abstract class Bootstrap
 {
