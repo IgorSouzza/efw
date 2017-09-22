@@ -48,7 +48,8 @@ abstract class Bootstrap
 		//If URL exists in routes array, call the action.
 		array_walk($this->routes, function($route) use($url){
 			//If exists word 'delete' in route array, execute this
-			if(strpos($route['route'], 'delete') !== false){
+			if(strpos($route['route'], 'delete') !== false ||
+				strpos($route['route'], 'update') !== false){
 				//Get numbers in url and put in final route delete array
 				$id = filter_var($url, FILTER_SANITIZE_NUMBER_INT);
 				$route['route'] .= $id;
@@ -66,7 +67,12 @@ abstract class Bootstrap
 					$controller = new $class;
 					$controller->{$route['action']}();
 				}
-			}		
+			}
+			if(strpos($url, 'logout') !== false){
+				session_start();
+				session_destroy();
+				header("Location: /");
+			}
 		});
 	}
 

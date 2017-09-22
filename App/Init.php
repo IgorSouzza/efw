@@ -14,6 +14,12 @@ class Init extends Bootstrap
 	protected function initRoutes()
 	{
 		$ar['home'] = array('route' => '/', 'controller' => 'HomeController', 'action' => 'index');
+		$ar['admin'] = array('route' => '/admin', 'controller' => 'AdminLoginController', 'action' => 'index');
+		$ar['admin-dash'] = array('route' => '/admin/dash', 'controller' => 'AdminDashBoardController', 'action' => 'index');
+		$ar['admin-dash-produtos'] = array('route' => '/admin/dash/produtos', 'controller' => 'AdminProdutosController', 'action' => 'index');
+		$ar['admin-dash-produtos-create'] = array('route' => '/admin/dash/produtos/create', 'controller' => 'AdminProdutosController', 'action' => 'create');
+		$ar['admin-dash-produtos-delete'] = array('route' => '/admin/dash/produtos/delete/', 'controller' => 'AdminProdutosController', 'action' => 'delete');
+		$ar['admin-dash-produtos-update'] = array('route' => '/admin/dash/produtos/update/', 'controller' => 'AdminProdutosController', 'action' => 'update');
 		$this->setRoutes($ar);
 	}
 

@@ -1,0 +1,47 @@
+/*GLOBAL*/
+textarea { resize: none;}
+.link-disabled { pointer-events: none; cursor: default; text-decoration: line-through; }
+
+/*HEADER*/
+.logo { background-color: #282b38; color: #F1F6FA; height: 69px;}
+.logo h1 { font-size: 24px;}
+
+/*TOP MENU*/
+.menuUp { background-color: #F1F6FA; height: 69px; border-bottom: solid 1px #E7E7E7;}
+.menuUp li { text-decoration: none; list-style: none;}
+.menuUp h4 {text-align: right;}
+
+/*SIDE MENU*/
+.menuSide { background-color: #333645; height: 700px;}
+.menuSide ul { list-style: none; margin-top: 20px; font-size: 16px; padding-left: 10px;}
+.menuSide li { margin-top: 30px;}
+.menuSide .active { background-color: #202334;}
+.menuSide a { color: #777C80;}
+.menuSide span { color: #777C80; padding-right: 10px;}
+
+/*CONTENT*/
+.content { background-color: #F1F6FA; height: 100%; min-height: 500px;}
+
+.dashContent { border: 1px solid #fff; color: white; font-size: 16px; text-align: center; margin-left: 40px; padding: 40px;}
+
+.description-table { max-width : 50px; white-space : nowrap; overflow:hidden !important; text-overflow: ellipsis;}
+
+.mbtn { font-family: Arial; color: #ffffff; font-size: 15px; background: #3498db; padding: 5px 10px 5px 10px; text-decoration: none;}
+.mbtn:hover { background: #3cb0fd; text-decoration: none;}
+
+/*FOOTER*/
+.footer { background-color: #282b38; color: #F1F6FA; text-align: right; width: 100%;}
+.footer p { padding-top: 5px;}
+
+@media screen and (min-width: 992px){
+  .menuSide { display: block;}
+}
+
+@media screen and (max-width: 991px) {
+    header .name { display: none;}
+    header .hidden { display: block !important; font-size: 26px; text-align: center; padding-top: 15px;}
+
+    .menuUp img { display: none;}
+
+    .menuSide { display: none; text-align: center;    }
+}

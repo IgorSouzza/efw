@@ -63,6 +63,31 @@ abstract class Table
 	}
 
 	/*
+	* Update a value from DB.
+	*/
+	public function update($id, array $values)
+	{
+		//String handle to build a flexible query.
+		$binds = array_keys($values);
+		$dbParams = str_replace(":", "", array_values($this->params));
+		$finalSetValues = null;
+		for ($i=0; $i < 3; $i++) { 
+			$finalSetValues .= "," . $dbParams[$i] . "=:" . $binds[$i];
+		}
+		$finalQuerySetValues = ltrim($finalSetValues, ",");
+		$finalValues = array_values($values);
+
+		//PDO
+		$sql = "UPDATE {$this->table} SET {$finalQuerySetValues} WHERE id = :id";
+		$stmt = $this->db->prepare($sql);
+		$stmt->bindParam(":id", $id);
+		foreach ($binds as $i => $bind) {
+			$stmt->bindParam(":".$bind, $finalValues[$i]);
+		}
+		$stmt->execute();
+	}
+
+	/*
 	* Delete a value from DB.
 	*/
 	public function delete($id)
@@ -74,7 +99,7 @@ abstract class Table
 	}
 
 	/*
-	* Check if digited user and pass matches with Database
+	* Check if entered user and pass matches with Database
 	*/
 	public function checkLogin(string $user, string $pass)
 	{

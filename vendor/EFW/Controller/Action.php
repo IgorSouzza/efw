@@ -21,6 +21,12 @@ class Action
 	{
 		$loader = new \Twig_Loader_Filesystem(BASE_VIEW);
 		$twig = new \Twig_Environment($loader);
+		
+		//Session global variables
+		if(!empty($_SESSION['userlogin'])){
+			$twig->addGlobal('nome', $_SESSION['userlogin']['user_name'] . " " . $_SESSION['userlogin']['user_lastname']);
+			$twig->addGlobal('message', Messages::getSystemMessage());
+		}
 
 		//String handling
 		$newStringView = str_replace(".", "/", $view);
