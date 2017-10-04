@@ -20,6 +20,7 @@ class Init extends Bootstrap
 		$ar['admin-dash-produtos-create'] = array('route' => '/admin/dash/produtos/create', 'controller' => 'AdminProdutosController', 'action' => 'create');
 		$ar['admin-dash-produtos-delete'] = array('route' => '/admin/dash/produtos/delete/', 'controller' => 'AdminProdutosController', 'action' => 'delete');
 		$ar['admin-dash-produtos-update'] = array('route' => '/admin/dash/produtos/update/', 'controller' => 'AdminProdutosController', 'action' => 'update');
+		$ar['admin-dash-settings'] = array('route' => '/admin/dash/settings', 'controller' => 'AdminSettingsController', 'action' => 'index');
 		$this->setRoutes($ar);
 	}
 
@@ -28,7 +29,12 @@ class Init extends Bootstrap
 	*/
 	public static function getDb()
 	{
-		$db = new \PDO("mysql:host=" . DB_HOST . ";dbname=" . DB_NAME . ";", DB_LOGIN, DB_PASS);
-		return $db;
+		try{
+			$db = new \PDO("mysql:host=" . DB_HOST . ";dbname=" . DB_NAME . ";", DB_LOGIN, DB_PASS);
+			return $db;
+		}catch(\PDOException $e){
+			echo "Impossivel conectar com o banco de dados!";
+		}
+		
 	}
 }

@@ -2,3 +2,7 @@ App/Controllers/*
 App/Models/*
 App/Views/*
 App/Init
+public/*
+public/css/*
+public/js/*
+public/img/*

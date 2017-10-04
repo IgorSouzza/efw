@@ -45,8 +45,11 @@ abstract class Table
 	*/
 	public function fetchAll()
 	{
-		$query = "SELECT * FROM {$this->table}";
-		return $this->db->query($query);
+		$stmt = $this->db->prepare("SELECT * FROM {$this->table}");
+		$stmt->execute();
+
+		$res = $stmt->fetchAll(\PDO::FETCH_ASSOC);
+		return $res;
 	}
 
 	/*
@@ -71,8 +74,8 @@ abstract class Table
 		$binds = array_keys($values);
 		$dbParams = str_replace(":", "", array_values($this->params));
 		$finalSetValues = null;
-		for ($i=0; $i < 3; $i++) { 
-			$finalSetValues .= "," . $dbParams[$i] . "=:" . $binds[$i];
+		for ($i=0; $i < count($values); $i++) { 
+			$finalSetValues .= "," . $binds[$i] . "=:" . $binds[$i];
 		}
 		$finalQuerySetValues = ltrim($finalSetValues, ",");
 		$finalValues = array_values($values);
@@ -120,6 +123,15 @@ abstract class Table
 		$stmt = $this->db->prepare("SELECT {$value} FROM {$this->table} WHERE user_email = :email AND user_pass = :pass");
 		$stmt->bindParam(":email", $user);
 		$stmt->bindParam(":pass", $pass);
+		$stmt->execute();
+
+		$res = $stmt->fetch(\PDO::FETCH_ASSOC);
+		return $res;
+	}
+
+	public function getSiteValues()
+	{
+		$stmt = $this->db->prepare("SELECT * FROM efw_base");
 		$stmt->execute();
 
 		$res = $stmt->fetch(\PDO::FETCH_ASSOC);

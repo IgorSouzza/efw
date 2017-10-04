@@ -22,10 +22,14 @@ class Action
 		$loader = new \Twig_Loader_Filesystem(BASE_VIEW);
 		$twig = new \Twig_Environment($loader);
 		
-		//Session global variables
+		//Twig global variables
 		if(!empty($_SESSION['userlogin'])){
+			//Admin
 			$twig->addGlobal('nome', $_SESSION['userlogin']['user_name'] . " " . $_SESSION['userlogin']['user_lastname']);
 			$twig->addGlobal('message', Messages::getSystemMessage());
+			$twig->addGlobal('page', '');
+			//SEO main site
+			$twig->addGlobal('pageTitle', Container::getPageValues('site_nome'));
 		}
 
 		//String handling
