@@ -21,6 +21,7 @@ class Init extends Bootstrap
 		$ar['admin-dash-produtos-delete'] = array('route' => '/admin/dash/produtos/delete/', 'controller' => 'AdminProdutosController', 'action' => 'delete');
 		$ar['admin-dash-produtos-update'] = array('route' => '/admin/dash/produtos/update/', 'controller' => 'AdminProdutosController', 'action' => 'update');
 		$ar['admin-dash-settings'] = array('route' => '/admin/dash/settings', 'controller' => 'AdminSettingsController', 'action' => 'index');
+		$ar['admin-dash-settings-seo'] = array('route' => '/admin/dash/settings-seo', 'controller' => 'AdminSettingsController', 'action' => 'indexSEO');
 		$this->setRoutes($ar);
 	}
 

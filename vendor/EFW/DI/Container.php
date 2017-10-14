@@ -13,7 +13,7 @@ class Container
 		$class = new $str_class(\App\Init::getDb());
 		return $class;
 	}
-
+	
 	public static function getPageValues(string $index)
 	{
 		$values = new \App\Models\SiteBase(\App\Init::getDb());

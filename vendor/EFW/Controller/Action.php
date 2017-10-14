@@ -27,10 +27,15 @@ class Action
 			//Admin
 			$twig->addGlobal('nome', $_SESSION['userlogin']['user_name'] . " " . $_SESSION['userlogin']['user_lastname']);
 			$twig->addGlobal('message', Messages::getSystemMessage());
-			$twig->addGlobal('page', '');
-			//SEO main site
-			$twig->addGlobal('pageTitle', Container::getPageValues('site_nome'));
+			$twig->addGlobal('current_page', '');
 		}
+		//SEO
+		$twig->addGlobal('page_title', Container::getPageValues('site_nome'));
+		$twig->addGlobal('page_simple_desc', Container::getPageValues('site_descricao'));
+		$twig->addGlobal('page_detail_desc', Container::getPageValues('site_descricao_detalhada'));
+		$twig->addGlobal('page_facebook', Container::getPageValues('social_facebook'));
+		$twig->addGlobal('page_googleplus', Container::getPageValues('social_googleplus'));
+		$twig->addGlobal('page_twitter', Container::getPageValues('social_twitter'));
 
 		//String handling
 		$newStringView = str_replace(".", "/", $view);
