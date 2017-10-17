@@ -11,12 +11,28 @@ define("DB_NAME", "efw");
 define("DB_LOGIN", "root");
 define("DB_PASS", "root");
 define("ADMIN_LEVEL", 3);
-define("BASE_PATH", $_SERVER['DOCUMENT_ROOT'] . "\\");
-define("BASE_VIEW", $_SERVER['DOCUMENT_ROOT'] . "\\App\\Views\\");
+define("BASE_PATH", $_SERVER['DOCUMENT_ROOT'] . "/");
+define("BASE_VIEW", $_SERVER['DOCUMENT_ROOT'] . "/App/Views/");
+$siteinfo = ['title' => 'Igor Souzza - Criação de Sites, Desenvolvimento e Soluções Web',
+			'title_port' => 'Igor Souzza Portfolio - Criação de Sites, Desenvolvimento e Soluções Web',
+			'site_name' => 'Igor Souzza - Desenvolvimento e Soluções Web', 
+			'site_desc' => 'Criação e Desenvolvimento de Web Sites com extrema qualidade e segurança. É aqui que seus sonhos começam.',
+			'logo' => "public/images/logo.jpg", 
+			'logo2' => "public/images/logo.png", 
+			'url' => 'https://www.igorsouzza.com.br',
+			'google_author' => '117033327238723927777', 
+			'google_publisher' => '106350026213975038404',
+			'fb_app' => '139847073426055',
+			'fb_author' => 'igor.souza079',
+			'fb_publisher' => 'igorsouzzaweb',
+];
+define("SITE_INFO", $siteinfo);
 
 abstract class Bootstrap
 {
 	private $routes;
+	private $siteData;
+	private $url;
 
 	public function __construct()
 	{
@@ -36,6 +52,7 @@ abstract class Bootstrap
 	*/
 	protected function run($url)
 	{
+		$this->url = $url;
 		//Check if the URL ends with '/' and remove the character to works correctly!
 		if(strlen($url) > 1){
 			if(substr($url, -1) === "/")
@@ -46,34 +63,41 @@ abstract class Bootstrap
 		$id = null;
 
 		//If URL exists in routes array, call the action.
-		array_walk($this->routes, function($route) use($url){
-			//If exists word 'delete' in route array, execute this
-			if(strpos($route['route'], 'delete') !== false ||
-				strpos($route['route'], 'update') !== false){
-				//Get numbers in url and put in final route delete array
-				$id = filter_var($url, FILTER_SANITIZE_NUMBER_INT);
-				$route['route'] .= $id;
-			}
-			if($url == $route['route'])
-			{
-				//If exists a id in URL and in route, put this id in action parameter 
-				if(!empty($id) && strpos($route['route'], $id) !== false){
-					$class = "App\\Controllers\\" . $route['controller'];
-					$controller = new $class;
-					$controller->{$route['action']}((int)$id);
+		if($this->checkUrl()){
+			array_walk($this->routes, function($route) use($url){
+				//If exists word 'delete' in route array, execute this
+				if(strpos($route['route'], 'delete') !== false ||
+					strpos($route['route'], 'update') !== false){
+					//Get numbers in url and put in final route delete array
+					$id = filter_var($url, FILTER_SANITIZE_NUMBER_INT);
+					$route['route'] .= $id;
 				}
-				else{
-					$class = "App\\Controllers\\" . $route['controller'];
-					$controller = new $class;
-					$controller->{$route['action']}();
+
+				if($url === $route['route'])
+				{
+					//If exists a id in URL and in route, put this id in action parameter 
+					if(!empty($id) && strpos($route['route'], $id) !== false){
+						$class = "App\\Controllers\\" . $route['controller'];
+						$controller = new $class;
+						$controller->{$route['action']}((int)$id);
+					}
+					else{
+						$class = "App\\Controllers\\" . $route['controller'];
+						$controller = new $class;
+						$controller->{$route['action']}();
+					}
 				}
-			}
-			if(strpos($url, 'logout') !== false){
-				session_start();
-				session_destroy();
-				header("Location: /");
-			}
-		});
+
+				if(strpos($url, 'logout') !== false){
+					session_start();
+					session_destroy();
+					header("Location: /");
+				}
+			});
+		}
+		else{
+			header("Location: /404");
+		}
 	}
 
 	/*
@@ -91,4 +115,24 @@ abstract class Bootstrap
 	{
 		return parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
 	}
+
+	private function checkUrl()
+	{
+		$i = 0;
+		foreach ($this->routes as $route) {
+			if($this->url == $route['route']){
+				$i = 1;
+				break;
+			}
+			else{
+				$i = 0;
+			}
+		}	
+		if($i > 0)
+			return true;
+		else
+			return false;
+	}
+
+
 }

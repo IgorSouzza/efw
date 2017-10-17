@@ -6,11 +6,8 @@ use EFW\DI\Container;
 
 class Action
 {
-	protected $view;
-
 	public function __construct()
 	{
-		$this->view = new \stdClass;
 		session_start();
 	}
 
@@ -21,7 +18,7 @@ class Action
 	{
 		$loader = new \Twig_Loader_Filesystem(BASE_VIEW);
 		$twig = new \Twig_Environment($loader);
-		
+
 		//Twig global variables
 		if(!empty($_SESSION['userlogin'])){
 			//Admin
@@ -30,12 +27,18 @@ class Action
 			$twig->addGlobal('current_page', '');
 		}
 		//SEO
-		$twig->addGlobal('page_title', Container::getPageValues('site_nome'));
-		$twig->addGlobal('page_simple_desc', Container::getPageValues('site_descricao'));
-		$twig->addGlobal('page_detail_desc', Container::getPageValues('site_descricao_detalhada'));
-		$twig->addGlobal('page_facebook', Container::getPageValues('social_facebook'));
-		$twig->addGlobal('page_googleplus', Container::getPageValues('social_googleplus'));
-		$twig->addGlobal('page_twitter', Container::getPageValues('social_twitter'));
+		$twig->addGlobal('title', SITE_INFO['title']);
+		$twig->addGlobal('title_port', SITE_INFO['title_port']);
+		$twig->addGlobal('site_name', SITE_INFO['site_name']);
+		$twig->addGlobal('site_desc', SITE_INFO['site_desc']);
+		$twig->addGlobal('logo', SITE_INFO['logo']);
+		$twig->addGlobal('logo2', SITE_INFO['logo2']);
+		$twig->addGlobal('url', SITE_INFO['url']);
+		$twig->addGlobal('google_author', SITE_INFO['google_author']);
+		$twig->addGlobal('google_publisher', SITE_INFO['google_publisher']);
+		$twig->addGlobal('fb_app', SITE_INFO['fb_app']);
+		$twig->addGlobal('fb_author', SITE_INFO['fb_author']);
+		$twig->addGlobal('fb_publisher', SITE_INFO['fb_publisher']);
 
 		//String handling
 		$newStringView = str_replace(".", "/", $view);

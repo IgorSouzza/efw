@@ -1,34 +1,285 @@
 <!DOCTYPE html>
-<html lang="en">
-  <head>
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="author" content="{{DB_HOST}}" />
-    <meta name="author" content="{{page_simple_desc}}" />
-    <meta name="author" content="{{page_detail_desc}}" />
-    <meta name="author" content="{{page_facebook}}" />
-    <meta name="author" content="{{page_googleplus}}" />
-    <meta name="author" content="{{page_twitter}}" />
+<html lang="pt-br">
+    <head>
+        <!-- Global site tag (gtag.js) - Google Analytics -->
+        <script async src="https://www.googletagmanager.com/gtag/js?id=UA-108085445-1"></script>
+        <script>
+            window.dataLayer = window.dataLayer || [];
+            function gtag() {
+                dataLayer.push(arguments);
+            }
+            gtag('js', new Date());
 
-    <title>{{page_title}}</title>
+            gtag('config', 'UA-108085445-1');
+        </script>
 
-    <!-- Bootstrap -->
-    <link href="public/css/bootstrap.min.css" rel="stylesheet">
+        <!-- JSON-LD -->
+        <script type="application/ld+json">
+            { 
+                "@context": "https://schema.org", 
+                "@type": "WebSite", 
+                "headline": "{{title}}",
+                "url": "https://www.igorsouzza.com.br/", 
+                "name": "{{title}}",
+                "description": "{{desc}}",
+                "datePublished": "2017-10-12",
+                "dateModified": "2017-10-16",
+                "author": {
+                    "@type": "Person",
+                    "name": "https://plus.google.com/{{google_author}}/posts"
+                },
+                "publisher": {
+                    "@type": "Organization",
+                    "name": "https://plus.google.com/{{google_publisher}}",
+                    "logo": {
+                        "@type": "ImageObject",
+                        "url": "{{logo}}",
+                        "width": "800",
+                        "height": "600"
+                        }
+                }
+            }
+        </script>
 
-    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
-    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
-    <!--[if lt IE 9]>
-      <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
-      <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
-    <![endif]-->
-  </head>
-  <body>
-    <h1>Hello, world!</h1>
-    <img src="uploads/produtos/bicicleta.jpg">
-    <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
-    <!-- Include all compiled plugins (below), or include individual files as needed -->
-    <script src="public/js/bootstrap.min.js"></script>
-  </body>
+        <!-- Required meta tags -->
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+        <meta name="description" content="{{site_desc}}">
+        <meta name="robots" content="index, follow">
+
+        <link rel="me" href="https://plus.google.com/{{google_author}}/posts">
+        <link rel="publisher" href="https://plus.google.com/{{google_publisher}}">
+        <link rel="canonical" href="{{url}}">
+        <link rel="alternate" type="application/rss+xml" href="{{url}}/rss.xml">
+
+        <meta property="og:type" content="website" />
+        <meta property="og:title" content="{{title}}" />
+        <meta property="og:description" content="{{site_desc}}" />
+        <meta property="og:image" content="{{logo}}" />
+        <meta property="og:url" content="{{url}}" />
+        <meta property="og:site_name" content="{{site_name}}" />
+        <meta property="og:locale" content="pt_BR" />
+
+        <meta property="fb:app_id" content="{{fb_app}}" />
+        <meta property="article:author" content="https://www.facebook.com/{{fb_author}}" />
+        <meta property="article:publisher" content="https://www.facebook.com/{{fb_publisher}}" />
+
+        <title>{{title}}</title>
+        <link rel="shortcut icon" type="image/png" href="favicon.ico"/>
+        <!-- Fonts -->
+        <link href="https://fonts.googleapis.com/css?family=Share+Tech|Montserrat:400,700|Roboto:400,700" rel="stylesheet">
+        <!-- Bootstrap CSS -->
+        <link rel="stylesheet" type="text/css" href="public/css/bootstrap.min.css">
+        <link rel="stylesheet" type="text/css" href="public/css/style.css">
+        <!-- IE -->
+        <!--[if lt IE 9]>
+                <script src="public/js/html5shiv.js"></script>
+        <![endif]-->
+    </head>
+    <body id="index">
+        <header class="bg">
+            <div class="container">
+                <div class="row text-center logo">
+                    <h1 id="sticky"><a href="/"><img src="{{logo2}}" alt="Logo Igor Souzza - Desenvolvimento e soluções web"><mark>{{title}}</mark></a></h1>
+                </div>
+                <section>
+                    <div class="row">
+                        <div class="col-md-8 col-sm-12 m-auto">
+                            <h2>Tenha em mãos o site que você sempre sonhou! <br> Alcance seus <span class="type"></span> agora mesmo.</h2>
+                        </div>
+                        <div class="col-md-6 col-sm-12 m-auto">
+                            <p id="targetSticky">"Todos os seus sonhos podem se tornar realidade se você tem coragem para persegui-los"</p>
+                            <p class="author">-Walt Disney</p>
+                        </div>
+                    </div>
+                    <div class="row desca">
+                        <span class="col-12 m-auto">Desça e <span class="type2"></span></span>
+                        <span class="arrow m-auto" id="scroll-btn"><a href="#"><img src="public/images/scroll.png"></a></span>
+                    </div>
+                </section>
+            </div>
+        </header>
+        <section id="about">
+            <div class="container foo">
+                <div class="row">
+                    <div class="col-12">
+                        <h1 class="text-center sub-title"><span>SOBRE</span></h1>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-12 user">
+                        <img src="public/images/user.png">
+                    </div>
+                    <div class="col-lg-7 m-auto col-sm-12 text-center">
+                        <p>
+                            Está na hora de fazer seu negócio decolar na direção certa! Todos os projetos serão feitos do zero, você terá algo exclusivo, feito com amor, qualidade e organização. Tenha agora mesmo o site perfeito para você! 
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <section id="diferenciais">
+            <div class="container foo1">
+                <div class="row">
+                    <div class="col-12">
+                        <h1 class="text-center sub-title"><span>DIFERENCIAIS</span></h1>
+                    </div>
+                </div>
+                <div class="row content">
+                    <div class="col-md-6">
+                        <article>
+                            <span class="icon icon-exclu"></span><h1>Exclusividade!</h1>
+                            <p>Nada de Wordpress, Magento ou Joomla. Todos os sistemas são feitos do ZERO para te atender perfeitamente!</p>
+                        </article>
+                    </div>
+                    <div class="col-md-6">
+                        <article>
+                            <span class="icon icon-velocity"></span><h1>Velocidade!</h1>
+                            <p>Com a organização dos códigos, boas práticas e técnica, tudo fica muito mais rápido. Seu site irá carregar rapidamente!</p>
+                        </article>
+                    </div>
+                    <div class="col-md-6">
+                        <article>
+                            <span class="icon icon-quality"></span><h1>Qualidade!</h1>
+                            <p>Código limpo, organização, boas práticas, café e muito amor. Trabalho com essa receita e o resultado é uma solução de grande qualidade para você!</p>
+                        </article>
+                    </div>
+                    <div class="col-md-6">
+                        <article>
+                            <span class="icon icon-security"></span><h1>Segurança!</h1>
+                            <p>Todo tipo de brecha e falhas são pensados e repensados. Tudo é feito para blindar cada vez mais o site.</p>
+                        </article>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <section id="services">
+            <div class="container foo2">
+                <div class="row">
+                    <div class="col-12">
+                        <h1 class="text-center sub-title"><span>SERVIÇOS</span></h1>
+                    </div>
+                </div>
+                <div class="row services-content">
+                    <article class="col-sm-12 col-md-3 m-auto text-center service-block">
+                        <img src="public/images/icon-prog.png">
+                        <h1>CRIAÇÃO DE SITES</h1>
+                        <p class="tagline"><mark>Criação de sites institucionais, lojas virtuais, blogs, portais</mark> e 
+                            muitos mais. Tenha seu site responsivo agora mesmo!</p>
+                    </article>
+                    <article class="col-sm-12 col-md-3 m-auto text-center service-block">
+                        <img src="public/images/google.svg">
+                        <h1><mark>SEO/GOOGLE ADS</mark></h1>
+                        <p class="tagline">Seu site na primeira página do Google, inúmeras visítas e super bem ranqueado. Aumente já suas vendas!</p>
+                    </article>
+                    <article class="col-sm-12 col-md-3 m-auto text-center service-block">
+                        <img src="public/images/icon-design.png">
+                        <h1>CRIAÇÃO DE LAYOUTS</h1>
+                        <p class="tagline"><mark>Layouts para lojas virtuais, blogs, portais, sites institucionais</mark>. Feitos com 
+                            Photoshop do jeito que você imaginar!</p>
+                    </article>
+                </div>
+            </div>
+        </section>
+        <section id="portfolio">
+            <div class="container foo3">
+                <div class="row">
+                    <div class="col-12">
+                        <h1 class="text-center sub-title"><span>PORTFOLIO</span></h1>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-12 text-center portfolio-block">
+                        <a href="/portfolio" target="_blank"><img src="public/images/site1.png" alt="Previa do meu trabalho"></a>
+                        <a href="/portfolio" target="_blank"><img src="public/images/site2.png" alt="Previa do meu trabalho"></a>
+                        <a href="/portfolio" target="_blank"><img src="public/images/site3.png" alt="Previa do meu trabalho"></a>
+                        <a href="/portfolio" target="_blank"><img src="public/images/site4.png" alt="Previa do meu trabalho"></a></a><br>
+                    </div>
+                    <div class="col-12 text-center">
+
+                    </div>
+                    <div class="col-12 text-center port-btn">
+                        <a title="Veja todos meus projetos!" href="/portfolio" class="mybtn">Quero conhecer mais</a>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <section id="contact">
+            <div class="container">
+                <div class="row">
+                    <div class="col-12">
+                        <h1 class="text-center sub-title"><span>CONTATO</span></h1>
+                    </div>
+                </div>
+                <div class="row">
+                    <article class="col-md-4 col-sm-12">
+                        <h5>Me envie uma mensagem</h5>
+                        <form method="POST">
+                            <div class="form-group">
+                                <label for="name">Nome:</label>
+                                <input type="text" class="form-control" id="name" name="nome" placeholder="Digite seu nome...">
+                            </div>
+                            <div class="form-group">
+                                <label for="name">Email:</label>
+                                <input type="email" class="form-control" id="email" name="email" placeholder="Digite seu email...">
+                            </div>
+                            <div class="form-group">
+                                <label for="name">Menssagem:</label>
+                                <textarea class="form-control" name="mensagem" placeholder="Mensagem..."></textarea>
+                            </div>
+                            <input class="btn" type="submit" name="BTEnvia" value="Enviar">
+                        </form>
+                    </article>
+                    <article class="col-md-4 col-sm-12 ml-auto">
+                        <h5>Dados para contato</h5>
+                        <div class="icon mailicon"></div><span style="font-weight: bold;">Email: </span><a href="mailto:contato@igorsouzza.com.br" title="Entrar em contato por e-mail">contato@igorsouzza.com.br</a>
+                        <br>
+                        <div class="icon whatsappicon"></div><span style="font-weight: bold;">Whatsapp: </span>
+                        <a href="https://api.whatsapp.com/send?phone=5511969712779" title="Entrar em contato pelo Whatsapp" target="_blank">(11)96971-2779</a>
+                        <br>
+                        <div class="icon facebookicon"></div><span style="font-weight: bold;">Facebook: </span><a href="https://www.facebook.com/igorsouzzaweb/" title="Entrar em contato pelo Facebook" target="_blank">Acesse aqui!</a>
+                        <br>
+                        <div class="icon googleplusicon"></div><span style="font-weight: bold;">Google+: </span><a href="https://plus.google.com/117033327238723927777" title="Entrar em contato pelo Google+" target="_blank">Acesse aqui!</a>
+                        <br>
+                        <h2 class="footer-logo"><img src="public/images/logo.png" alt=""></h2>
+                    </article>
+                </div>
+            </div>
+        </section>
+        <footer style="text-align: right; background-color: #212121; color: #f5f5f5">
+            <small>Desenvolvido por <mark style="color: #f28226">Igor Souza</mark>. &copy 2017. Todos os direitos reservados</small>
+        </footer>
+        <!-- Optional JavaScript -->
+        <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+        <script src="public/js/jquery-3.2.1.min.js"></script>
+        <script src="public/js/popper.js"></script>
+        <script src="public/js/bootstrap.min.js"></script>
+        <script src="https://unpkg.com/scrollreveal/dist/scrollreveal.min.js"></script>
+        <script src="public/js/menu.js"></script>
+        <script src="public/js/typed.min.js"></script>
+        <script type="text/javascript">
+            window.sr = ScrollReveal({duration: 500});
+            sr.reveal('.foo', 5);
+            sr.reveal('.foo1', 5);
+            sr.reveal('.foo2', 5);
+            sr.reveal('.foo3', 5);
+            var typed = new Typed('.type', {
+                strings: ["sonhos", "objetivos"],
+                typeSpeed: 200,
+                loop: true,
+                smartBackspace: true,
+                backSpeed: 50
+            });
+            var typed2 = new Typed('.type2', {
+                strings: ["entre em contato", "veja todos os projetos", "veja sobre o meu trabalho"],
+                typeSpeed: 200,
+                loop: true,
+                smartBackspace: true,
+                backSpeed: 50
+            });
+            $("#scroll-btn").click(function () {
+                $('html, body').animate({scrollTop: $("#about").offset().top - 50}, 2000);
+            });
+        </script>
+    </body>
 </html>

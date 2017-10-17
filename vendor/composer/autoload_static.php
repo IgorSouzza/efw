@@ -40,7 +40,7 @@ class ComposerStaticInitc435594bfa7f0e42db97b6a79791eef1
         ),
         'EFW\\' => 
         array (
-            0 => 'D:\\projetos-web\\efw\\epicpanel\\vendor',
+            0 => __DIR__ . '/../..' . '/vendor',
         ),
         'App\\' => 
         array (
@@ -61,12 +61,9 @@ class ComposerStaticInitc435594bfa7f0e42db97b6a79791eef1
     public static $classMap = array (
         'App\\Controllers\\AdminDashBoardController' => __DIR__ . '/../..' . '/App/Controllers/AdminDashBoardController.php',
         'App\\Controllers\\AdminLoginController' => __DIR__ . '/../..' . '/App/Controllers/AdminLoginController.php',
-        'App\\Controllers\\AdminProdutosController' => __DIR__ . '/../..' . '/App/Controllers/AdminProdutosController.php',
-        'App\\Controllers\\AdminSettingsController' => __DIR__ . '/../..' . '/App/Controllers/AdminSettingsController.php',
         'App\\Controllers\\HomeController' => __DIR__ . '/../..' . '/App/Controllers/HomeController.php',
-        'App\\Controllers\\SiteHomeController' => __DIR__ . '/../..' . '/App/Controllers/SiteHomeController.php',
+        'App\\Controllers\\NotFound' => __DIR__ . '/../..' . '/App/Controllers/NotFound.php',
         'App\\Init' => __DIR__ . '/../..' . '/App/Init.php',
-        'App\\Models\\Product' => __DIR__ . '/../..' . '/App/Models/Product.php',
         'App\\Models\\SiteBase' => __DIR__ . '/../..' . '/App/Models/SiteBase.php',
         'App\\Models\\User' => __DIR__ . '/../..' . '/App/Models/User.php',
         'EFW\\Auth\\Auth' => __DIR__ . '/..' . '/EFW/Auth/Auth.php',
@@ -74,6 +71,7 @@ class ComposerStaticInitc435594bfa7f0e42db97b6a79791eef1
         'EFW\\Controller\\Messages' => __DIR__ . '/..' . '/EFW/Controller/Messages.php',
         'EFW\\DB\\Table' => __DIR__ . '/..' . '/EFW/DB/Table.php',
         'EFW\\DI\\Container' => __DIR__ . '/..' . '/EFW/DI/Container.php',
+        'EFW\\Email\\SendEmail' => __DIR__ . '/..' . '/EFW/Email/SendEmail.php',
         'EFW\\Init\\Bootstrap' => __DIR__ . '/..' . '/EFW/Init/Bootstrap.php',
         'EFW\\Redirect\\Redirect' => __DIR__ . '/..' . '/EFW/Redirect/Redirect.php',
         'EFW\\StringHelper\\StringHelper' => __DIR__ . '/..' . '/EFW/StringHelper/StringHelper.php',

@@ -1,7 +1,8 @@
 <?php
 
 namespace App\Controllers;
-use EFW\Controller\Action;
+use \EFW\Controller\Action;
+use \EFW\Email\SendEmail;
 
 class HomeController extends Action
 {
@@ -12,6 +13,15 @@ class HomeController extends Action
 
 	public function index()
 	{
-		$this->render("index", array('name' => 'friend'));
+		if(!empty($_POST['BTEnvia'])){
+			$email = new SendEmail;
+			$email->send();
+		}
+		$this->render("index");
+	}
+
+	public function portfolio()
+	{
+		$this->render("portfolio");
 	}
 }
