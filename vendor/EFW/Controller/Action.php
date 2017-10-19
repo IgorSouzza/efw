@@ -25,7 +25,7 @@ class Action
 		if(!empty($_SESSION['userlogin'])){
 			//Admin
 			$twig->addGlobal('nome', $_SESSION['userlogin']['user_name'] . " " . $_SESSION['userlogin']['user_lastname']);
-			$twig->addGlobal('message', Messages::getSystemMessage());
+			$twig->addGlobal('message', Messages::getMessage());
 			$twig->addGlobal('current_page', '');
 		}
 		//SEO
@@ -50,5 +50,6 @@ class Action
 			echo $twig->render($newStringView, $data);
 		else
 			echo $twig->render($newStringView, array('' => ''));
+		$_SESSION['message'] = "";
 	}
 }

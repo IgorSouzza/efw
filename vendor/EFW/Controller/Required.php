@@ -1,6 +1,8 @@
 <?php
 
 namespace EFW\Controller;
+use \EFW\Redirect\Redirect;
+use \EFW\Controller\Messages;
 
 class Required
 {
@@ -14,15 +16,21 @@ class Required
 	public function require(array $required)
 	{
 		$this->values = filter_input_array(INPUT_POST);
+		$error = false;
 
 		if($this->values){
 			$this->setToNullUnusedValues();
 			foreach ($required as $field) {
 				if(empty($this->values[$field])){
-					return false;
+					$error = true;
 				}
-				else{
-					$this->result = $this->values;
+			}
+			if($error == true){
+				  Messages::setMessage("Preencha todos os campos!");
+			}
+			else{
+				$this->result = $this->values;
+				if(Redirect::canRedirect('/admin/clientes')){
 					return true;
 				}
 			}

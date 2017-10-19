@@ -4,19 +4,21 @@ namespace EFW\Controller;
 
 class Messages
 {
-	public static function getSystemMessage()
+	/*
+	 *
+	 */
+	public static function getMessage()
 	{
-		if(!empty($_SESSION['message']))
+		if(!empty($_SESSION['message'])){
 			return $_SESSION['message'];
+			unset($_SESSION['message']);
+		}
 		else
-			return "";
+			unset($_SESSION['message']);
 	}
 
-	public static function setSuccessSystemMessage($message)
+	public static function setMessage($message)
 	{
-		if(!empty($_SESSION['message']))
-			return $_SESSION['message'];
-		else
-			return "";
+		$_SESSION['message'] = $message;
 	}
 }
