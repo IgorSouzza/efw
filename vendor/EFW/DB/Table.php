@@ -77,7 +77,7 @@ abstract class Table
 		$dbParams = str_replace(":", "", array_values($this->params));
 		$finalSetValues = null;
 		for ($i=0; $i < count($values); $i++) { 
-			$finalSetValues .= "," . $binds[$i] . "=:" . $binds[$i];
+			$finalSetValues .= "," . $dbParams[$i] . "=:" . $binds[$i];
 		}
 		$finalQuerySetValues = ltrim($finalSetValues, ",");
 		$finalValues = array_values($values);

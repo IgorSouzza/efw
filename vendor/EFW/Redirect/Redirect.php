@@ -11,7 +11,7 @@ class Redirect
      */
     public static function canRedirect(string $path = null, $message = null)
     {
-        if($_SESSION['canRedirect'] === false){
+        if(!empty($_SESSION['canRedirect']) && $_SESSION['canRedirect'] === false){
             return false;
         }
         else{
