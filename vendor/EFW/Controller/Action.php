@@ -12,8 +12,10 @@ class Action
 	}
 
 	/*
-	* Call Twig Engine loader and return the view
-	*/
+	 * Call Twig Engine loader and return the view.
+	 * @param string $view path to .html.twig view file.
+	 * @param array $data values to send to view.
+	 */
 	public function render(string $view, array $data = null)
 	{
 		$loader = new \Twig_Loader_Filesystem(BASE_VIEW);

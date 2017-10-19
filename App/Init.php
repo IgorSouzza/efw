@@ -16,7 +16,11 @@ class Init extends Bootstrap
 		$ar['home'] = array('route' => '/', 'controller' => 'HomeController', 'action' => 'index');
 		$ar['portfolio'] = array('route' => '/portfolio', 'controller' => 'HomeController', 'action' => 'portfolio');
 		$ar['notfound'] = array('route' => '/404', 'controller' => 'NotFound', 'action' => 'index');
-		$ar['admin'] = array('route' => '/admin', 'controller' => 'LoginController', 'action' => 'index');
+		$ar['admin'] = array('route' => '/admin', 'controller' => 'AdminLoginController', 'action' => 'index');
+		$ar['admin/dash'] = array('route' => '/admin/dash', 'controller' => 'AdminDashController', 'action' => 'index');
+		$ar['admin/clientes'] = array('route' => '/admin/clientes', 'controller' => 'AdminClientesController', 'action' => 'index');
+		$ar['admin/clientes/adicionar'] = array('route' => '/admin/clientes/adicionar', 'controller' => 'AdminClientesController', 'action' => 'create');
+		$ar['admin/clientes/atualizar'] = array('route' => '/admin/clientes/atualizar/', 'controller' => 'AdminClientesController', 'action' => 'update');
 		$this->setRoutes($ar);
 	}
 

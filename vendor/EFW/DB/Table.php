@@ -17,7 +17,7 @@ abstract class Table
 	}
 
 	/*
-	* @Values array in exacly order of your database,
+	* @param array $values Array in exacly order of your database,
 	* if you dont respect the order, insert dont work.
 	* This method trata every string and array to mount
 	* a correctly query.
@@ -41,8 +41,8 @@ abstract class Table
 	}
 
 	/*
-	* Return every value from table.
-	*/
+	 * Return every value from table.
+	 */
 	public function fetchAll()
 	{
 		$stmt = $this->db->prepare("SELECT * FROM {$this->table}");
@@ -53,9 +53,9 @@ abstract class Table
 	}
 
 	/*
-	* Find a value from DB
-	*/
-	public function find($id)
+	 * Find a value from DB
+	 */
+	public function find(int $id)
 	{
 		$stmt = $this->db->prepare("SELECT * FROM {$this->table} WHERE id = :id");
 		$stmt->bindParam(":id", $id);
@@ -66,9 +66,11 @@ abstract class Table
 	}
 
 	/*
-	* Update a value from DB.
-	*/
-	public function update($id, array $values)
+	 * Update a table from DB.
+	 * @param int $id entity id
+	 * @param array $values values to be updated.
+	 */
+	public function update(int $id, array $values)
 	{
 		//String handle to build a flexible query.
 		$binds = array_keys($values);
@@ -91,9 +93,10 @@ abstract class Table
 	}
 
 	/*
-	* Delete a value from DB.
-	*/
-	public function delete($id)
+	 * Delete a value from DB.
+	 * @param int $id entity id
+	 */
+	public function delete(int $id)
 	{
 		$sql = "DELETE FROM {$this->table} WHERE id = :id";
 		$stmt = $this->db->prepare($sql);
@@ -102,8 +105,11 @@ abstract class Table
 	}
 
 	/*
-	* Check if entered user and pass matches with Database
-	*/
+	 * Check if entered user and pass matches with Database.
+	 * Class used in Login Controller.
+	 * @param string $user form informed user, to check in DB.
+	 * @param string $pass form informed pass, to check in DB.
+	 */
 	public function checkLogin(string $user, string $pass)
 	{
 		$stmt = $this->db->prepare("SELECT * FROM {$this->table} WHERE user_email = :email AND user_pass = :pass");
@@ -116,8 +122,9 @@ abstract class Table
 	}
 
 	/*
-	* Function to get user level mainly. But it can be used to get other values
-	*/
+	 * Function to get user level mainly. But it can be used to get other values.
+	 * You need to pass user and pass to get value.
+	 */
 	public function getValueFromDb(string $value, string $user, string $pass)
 	{
 		$stmt = $this->db->prepare("SELECT {$value} FROM {$this->table} WHERE user_email = :email AND user_pass = :pass");

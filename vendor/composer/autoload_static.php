@@ -40,7 +40,7 @@ class ComposerStaticInitc435594bfa7f0e42db97b6a79791eef1
         ),
         'EFW\\' => 
         array (
-            0 => __DIR__ . '/../..' . '/vendor',
+            0 => 'D:\\Web\\efw\\igor_all\\igor-18-10-17\\vendor',
         ),
         'App\\' => 
         array (
@@ -59,16 +59,19 @@ class ComposerStaticInitc435594bfa7f0e42db97b6a79791eef1
     );
 
     public static $classMap = array (
-        'App\\Controllers\\AdminDashBoardController' => __DIR__ . '/../..' . '/App/Controllers/AdminDashBoardController.php',
+        'App\\Controllers\\AdminClientesController' => __DIR__ . '/../..' . '/App/Controllers/AdminClientesController.php',
+        'App\\Controllers\\AdminDashController' => __DIR__ . '/../..' . '/App/Controllers/AdminDashController.php',
         'App\\Controllers\\AdminLoginController' => __DIR__ . '/../..' . '/App/Controllers/AdminLoginController.php',
         'App\\Controllers\\HomeController' => __DIR__ . '/../..' . '/App/Controllers/HomeController.php',
         'App\\Controllers\\NotFound' => __DIR__ . '/../..' . '/App/Controllers/NotFound.php',
         'App\\Init' => __DIR__ . '/../..' . '/App/Init.php',
+        'App\\Models\\Cliente' => __DIR__ . '/../..' . '/App/Models/Cliente.php',
         'App\\Models\\SiteBase' => __DIR__ . '/../..' . '/App/Models/SiteBase.php',
         'App\\Models\\User' => __DIR__ . '/../..' . '/App/Models/User.php',
         'EFW\\Auth\\Auth' => __DIR__ . '/..' . '/EFW/Auth/Auth.php',
         'EFW\\Controller\\Action' => __DIR__ . '/..' . '/EFW/Controller/Action.php',
         'EFW\\Controller\\Messages' => __DIR__ . '/..' . '/EFW/Controller/Messages.php',
+        'EFW\\Controller\\Required' => __DIR__ . '/..' . '/EFW/Controller/Required.php',
         'EFW\\DB\\Table' => __DIR__ . '/..' . '/EFW/DB/Table.php',
         'EFW\\DI\\Container' => __DIR__ . '/..' . '/EFW/DI/Container.php',
         'EFW\\Email\\SendEmail' => __DIR__ . '/..' . '/EFW/Email/SendEmail.php',

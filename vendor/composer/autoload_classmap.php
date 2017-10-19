@@ -6,16 +6,19 @@ $vendorDir = dirname(dirname(__FILE__));
 $baseDir = dirname($vendorDir);
 
 return array(
-    'App\\Controllers\\AdminDashBoardController' => $baseDir . '/App/Controllers/AdminDashBoardController.php',
+    'App\\Controllers\\AdminClientesController' => $baseDir . '/App/Controllers/AdminClientesController.php',
+    'App\\Controllers\\AdminDashController' => $baseDir . '/App/Controllers/AdminDashController.php',
     'App\\Controllers\\AdminLoginController' => $baseDir . '/App/Controllers/AdminLoginController.php',
     'App\\Controllers\\HomeController' => $baseDir . '/App/Controllers/HomeController.php',
     'App\\Controllers\\NotFound' => $baseDir . '/App/Controllers/NotFound.php',
     'App\\Init' => $baseDir . '/App/Init.php',
+    'App\\Models\\Cliente' => $baseDir . '/App/Models/Cliente.php',
     'App\\Models\\SiteBase' => $baseDir . '/App/Models/SiteBase.php',
     'App\\Models\\User' => $baseDir . '/App/Models/User.php',
     'EFW\\Auth\\Auth' => $vendorDir . '/EFW/Auth/Auth.php',
     'EFW\\Controller\\Action' => $vendorDir . '/EFW/Controller/Action.php',
     'EFW\\Controller\\Messages' => $vendorDir . '/EFW/Controller/Messages.php',
+    'EFW\\Controller\\Required' => $vendorDir . '/EFW/Controller/Required.php',
     'EFW\\DB\\Table' => $vendorDir . '/EFW/DB/Table.php',
     'EFW\\DI\\Container' => $vendorDir . '/EFW/DI/Container.php',
     'EFW\\Email\\SendEmail' => $vendorDir . '/EFW/Email/SendEmail.php',

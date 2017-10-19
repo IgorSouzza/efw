@@ -7,12 +7,16 @@ ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
 
 define("DB_HOST", "localhost");
-define("DB_NAME", "efw");
+define("DB_NAME", "igorsouz_site");
 define("DB_LOGIN", "root");
 define("DB_PASS", "root");
 define("ADMIN_LEVEL", 3);
 define("BASE_PATH", $_SERVER['DOCUMENT_ROOT'] . "/");
 define("BASE_VIEW", $_SERVER['DOCUMENT_ROOT'] . "/App/Views/");
+
+/*
+* SEO Site information
+*/
 $siteinfo = ['title' => 'Igor Souzza - Criação de Sites, Desenvolvimento e Soluções Web',
 			'title_port' => 'Igor Souzza Portfolio - Criação de Sites, Desenvolvimento e Soluções Web',
 			'site_name' => 'Igor Souzza - Desenvolvimento e Soluções Web', 
@@ -41,8 +45,8 @@ abstract class Bootstrap
 	}
 
 	/*
-	* Master function inherited in Init file.
-	*/
+	 * Master function inherited in Init file.
+	 */
 	abstract protected function initRoutes();
 
 	/*
@@ -62,12 +66,14 @@ abstract class Bootstrap
 		//Variable to get URL ID, in case of delete and update function.
 		$id = null;
 
-		//If URL exists in routes array, call the action.
-		if($this->checkUrl()){
+		//If URL exists in routes array, call the controller action.
+		if($this->response($url) === 200){
 			array_walk($this->routes, function($route) use($url){
 				//If exists word 'delete' in route array, execute this
 				if(strpos($route['route'], 'delete') !== false ||
-					strpos($route['route'], 'update') !== false){
+					strpos($route['route'], 'excluir') !== false ||
+					strpos($route['route'], 'update') !== false ||
+					strpos($route['route'], 'atualizar') !== false){
 					//Get numbers in url and put in final route delete array
 					$id = filter_var($url, FILTER_SANITIZE_NUMBER_INT);
 					$route['route'] .= $id;
@@ -101,38 +107,31 @@ abstract class Bootstrap
 	}
 
 	/*
-	* Set routes in Init file and bring here to work on it.
-	*/
+	 * Set routes in Init file and bring here to work on it.
+	 */
 	protected function setRoutes(array $routes)
 	{
 		$this->routes = $routes;
 	}
 
 	/*
-	* Parse URL to use run function
-	*/
+	 * Parse URL to use run function
+	 */
 	protected function getUrl()
 	{
 		return parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
 	}
 
-	private function checkUrl()
+	/*
+	 * Check if URL exists in route array.
+	 */
+	private function response($url)
 	{
-		$i = 0;
 		foreach ($this->routes as $route) {
-			if($this->url == $route['route']){
-				$i = 1;
+			if($url === $route['route'] || $url === $route['route'] . filter_var($url, FILTER_SANITIZE_NUMBER_INT) || $url === '/admin/logout'){
+				return 200;
 				break;
 			}
-			else{
-				$i = 0;
-			}
-		}	
-		if($i > 0)
-			return true;
-		else
-			return false;
+		}
 	}
-
-
 }
