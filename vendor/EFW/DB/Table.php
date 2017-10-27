@@ -40,16 +40,150 @@ abstract class Table
 		
 	}
 
-	/*
-	 * Return every value from table.
+	/**
+	 * Return all values from table, in desc.
+	 * @param  bool        $paginate if true, return with paginate logic
+	 * @param  string|null $colum    Database colum to compare with $word paramter
+	 * @param  string|null $word     Word to compare, if exists, return all values with this word
+	 * @return PDO                
 	 */
-	public function fetchAll()
+	public function fetchAll(bool $paginate, string $colum = null, string $word = null)
 	{
-		$stmt = $this->db->prepare("SELECT * FROM {$this->table}");
-		$stmt->execute();
+		if($paginate === false){
+			if($word == null || $colum == null){
+				$stmt = $this->db->prepare("SELECT * FROM {$this->table}");
+				$stmt->execute();
 
-		$res = $stmt->fetchAll(\PDO::FETCH_ASSOC);
-		return $res;
+				$res = $stmt->fetchAll(\PDO::FETCH_ASSOC);
+				return $res;
+			}
+			else{
+				//string handler to create a query like: SELECT * FROM `site_db`.`site_log` ORDER BY `timestamp` DESC LIMIT 1000;
+				$stmt = $this->db->prepare("SELECT * FROM `{$this->table}` WHERE {$colum} LIKE '%{$word}%' ORDER BY `timestamp` DESC LIMIT 1000;");
+				$stmt->execute();
+
+				$res = $stmt->fetchAll(\PDO::FETCH_ASSOC);
+				return $res;
+			}
+		}
+		else{
+			if($word == null || $colum == null){
+				$limit = 10;
+				$stmt = $this->db->prepare("SELECT * FROM {$this->table}");
+				$stmt->execute();
+				$total = $stmt->rowCount();
+				$pages = ceil($total / $limit);
+				
+				// What page are we currently on?
+			    $page = min($pages, filter_input(INPUT_GET, 'page', FILTER_VALIDATE_INT, array(
+			        'options' => array(
+			            'default'   => 1,
+			            'min_range' => 1,
+			        ),
+			    )));
+
+			    // Calculate the offset for the query
+			    $offset = ($page - 1)  * $limit;
+
+			    // Some information to display to the user
+			    $start = $offset + 1;
+			    $end = min(($offset + $limit), $total);
+
+			    // The "back" link
+			    $prevlink = ($page > 1) ? "<li class='page-item'><a class='page-link' href='?page=" . ($page-1) . "' tabindex='-1'>Anterior</a></li>" : "<li class='page-item disabled'><a class='page-link' href='#' tabindex='-1'>Anterior</a></li>";
+
+			    // The "forward" link
+			    $nextlink = ($page < $pages) ? "<li class='page-item'>
+			          <a class='page-link' href='?page=" . ($page + 1) . "'>Próxima</a>
+			        </li>" : "<li class='page-item disabled'><a class='page-link' href='#'>Próxima</a></li>";
+
+			    // Display the paging information
+			    $_SESSION['paginator'] = "
+			    <nav aria-label='Page navigation example'>
+			      <ul class='pagination justify-content-center'>
+			        {$prevlink}
+			        Página {$page} de {$pages}
+			        {$nextlink}
+			      </ul>
+			    </nav>
+			    ";
+
+			    // Prepare the paged query
+			    $stmt = $this->db->prepare("SELECT * FROM {$this->table} ORDER BY id DESC LIMIT :limit OFFSET :offset");
+
+			    // Bind the query params
+			    $stmt->bindParam(':limit', $limit, \PDO::PARAM_INT);
+			    $stmt->bindParam(':offset', $offset, \PDO::PARAM_INT);
+			    $stmt->execute();
+
+			    // Do we have any results?
+			    if ($stmt->rowCount() > 0) {
+			        $res = $stmt->fetchAll(\PDO::FETCH_ASSOC);
+					return $res;
+			    } 
+			    else {
+			        return null;
+			    }
+			}
+			else{
+				$limit = 10;
+				$stmt = $this->db->prepare("SELECT* FROM {$this->table} WHERE {$colum} LIKE '%{$word}%'");
+				$stmt->execute();
+				$total = $stmt->rowCount();
+				$pages = ceil($total / $limit);
+				
+				// What page are we currently on?
+			    $page = min($pages, filter_input(INPUT_GET, 'page', FILTER_VALIDATE_INT, array(
+			        'options' => array(
+			            'default'   => 1,
+			            'min_range' => 1,
+			        ),
+			    )));
+
+			    // Calculate the offset for the query
+			    $offset = ($page - 1)  * $limit;
+
+			    // Some information to display to the user
+			    $start = $offset + 1;
+			    $end = min(($offset + $limit), $total);
+
+			    // The "back" link
+			    $prevlink = ($page > 1) ? "<li class='page-item'><a class='page-link' href='?page=" . ($page-1) . "' tabindex='-1'>Anterior</a></li>" : "<li class='page-item disabled'><a class='page-link' href='#' tabindex='-1'>Anterior</a></li>";
+
+			    // The "forward" link
+			    $nextlink = ($page < $pages) ? "<li class='page-item'>
+			          <a class='page-link' href='?page=" . ($page + 1) . "'>Próxima</a>
+			        </li>" : "<li class='page-item disabled'><a class='page-link' href='#'>Próxima</a></li>";
+
+			    // Display the paging information
+			    $_SESSION['paginator'] = "
+			    <nav aria-label='Page navigation example'>
+			      <ul class='pagination justify-content-center'>
+			        {$prevlink}
+			        Página {$page} de {$pages}
+			        {$nextlink}
+			      </ul>
+			    </nav>
+			    ";
+
+			    // Prepare the paged query
+			    $stmt = $this->db->prepare("SELECT* FROM {$this->table} WHERE {$colum} LIKE '%{$word}%' ORDER BY timestamp DESC LIMIT :limit OFFSET :offset");
+
+			    // Bind the query params
+			    $stmt->bindParam(':limit', $limit, \PDO::PARAM_INT);
+			    $stmt->bindParam(':offset', $offset, \PDO::PARAM_INT);
+			    $stmt->execute();
+
+			    // Do we have any results?
+			    if ($stmt->rowCount() > 0) {
+			        $res = $stmt->fetchAll(\PDO::FETCH_ASSOC);
+					return $res;
+			    } 
+			    else {
+			        echo '<p>No results could be displayed.</p>';
+			    }
+			}
+		}
 	}
 
 	/*

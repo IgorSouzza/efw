@@ -1,6 +1,7 @@
 <?php
 
 namespace EFW\Redirect;
+use \EFW\Controller\Messages;
 
 class Redirect
 {
@@ -9,12 +10,14 @@ class Redirect
      * @param string $path Path to redirect user.
      * @param string $message Redirect and show message.
      */
-    public static function canRedirect(string $path = null, $message = null)
+    public static function redirect(string $path = null, $message = null)
     {
         if(!empty($_SESSION['canRedirect']) && $_SESSION['canRedirect'] === false){
+            unset($_SESSION['message']);
             return false;
         }
         else{
+            Messages::setMessage($message, 'success');
             header("Location: {$path}");
             return true;
         }

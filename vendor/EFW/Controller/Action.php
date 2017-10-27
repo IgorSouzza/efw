@@ -6,6 +6,8 @@ use EFW\DI\Container;
 
 class Action
 {
+	private $siteinfo;
+
 	public function __construct()
 	{
 		session_start();
@@ -16,7 +18,7 @@ class Action
 	 * @param string $view path to .html.twig view file.
 	 * @param array $data values to send to view.
 	 */
-	public function render(string $view, array $data = null)
+	public function render(string $view, array $data = null, string $pageNameInDatabase = null)
 	{
 		$loader = new \Twig_Loader_Filesystem(BASE_VIEW);
 		$twig = new \Twig_Environment($loader);
@@ -25,23 +27,16 @@ class Action
 		if(!empty($_SESSION['userlogin'])){
 			//Admin
 			$twig->addGlobal('nome', $_SESSION['userlogin']['user_name'] . " " . $_SESSION['userlogin']['user_lastname']);
-			$twig->addGlobal('message', Messages::getMessage());
 			$twig->addGlobal('current_page', '');
+			$twig->addGlobal('message', Messages::getMessage());
 		}
+		
 		//SEO
-		$twig->addGlobal('title', SITE_INFO['title']);
-		$twig->addGlobal('title_port', SITE_INFO['title_port']);
-		$twig->addGlobal('site_name', SITE_INFO['site_name']);
-		$twig->addGlobal('site_desc', SITE_INFO['site_desc']);
-		$twig->addGlobal('logo', SITE_INFO['logo']);
-		$twig->addGlobal('logo2', SITE_INFO['logo2']);
-		$twig->addGlobal('url', SITE_INFO['url']);
-		$twig->addGlobal('google_author', SITE_INFO['google_author']);
-		$twig->addGlobal('google_publisher', SITE_INFO['google_publisher']);
-		$twig->addGlobal('fb_app', SITE_INFO['fb_app']);
-		$twig->addGlobal('fb_author', SITE_INFO['fb_author']);
-		$twig->addGlobal('fb_publisher', SITE_INFO['fb_publisher']);
-
+		if(!empty($pageNameInDatabase))
+			$this->setSEO($twig, $pageNameInDatabase);
+		if(isset($_SESSION['paginator'])){
+			$twig->addGlobal('paginator', $_SESSION['paginator']);
+		}
 		//String handling
 		$newStringView = str_replace(".", "/", $view);
 		$newStringView .= '.html.twig';
@@ -50,6 +45,31 @@ class Action
 			echo $twig->render($newStringView, $data);
 		else
 			echo $twig->render($newStringView, array('' => ''));
-		$_SESSION['message'] = "";
+	}
+
+	/**
+	 * Set seo properties in each different page
+	 * @param Twig_Environment $twig twig variable to add global value
+	 * @param string $page page name in database to select database values for each page
+	 */
+	private function setSEO($twig, $page)
+	{
+		$seoPage = Container::getClass('SeoPage');
+		$seoPageValues = $seoPage->fetchAll(false)[0];
+
+		$seoGlobal = Container::getClass('seoGlobal');
+		$seoGlobalValues = $seoGlobal->fetchAll(false)[0];
+
+		$twig->addGlobal('title', $seoPageValues['page_title']);
+		$twig->addGlobal('site_desc', $seoPageValues['page_descricao']);
+		$twig->addGlobal('logo','public/images/logo.jpg');
+		$twig->addGlobal('logo2', 'public/images/logo.png');
+		$twig->addGlobal('url', $seoGlobalValues['global_url']);
+		$twig->addGlobal('site_name', $seoGlobalValues['global_name']);
+		$twig->addGlobal('google_author', $seoGlobalValues['global_google_author']);
+		$twig->addGlobal('google_publisher', $seoGlobalValues['global_google_pub']);
+		$twig->addGlobal('fb_app', $seoGlobalValues['global_fb_app']);
+		$twig->addGlobal('fb_author', $seoGlobalValues['global_fb_author']);
+		$twig->addGlobal('fb_publisher', $seoGlobalValues['global_fb_pub']);
 	}
 }

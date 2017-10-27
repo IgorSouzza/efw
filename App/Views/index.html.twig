@@ -217,15 +217,19 @@
                         <form method="POST">
                             <div class="form-group">
                                 <label for="name">Nome:</label>
-                                <input type="text" class="form-control" id="name" name="nome" placeholder="Digite seu nome...">
+                                <input type="text" required="true" class="form-control" id="name" name="nome" placeholder="Digite seu nome...">
                             </div>
                             <div class="form-group">
                                 <label for="name">Email:</label>
-                                <input type="email" class="form-control" id="email" name="email" placeholder="Digite seu email...">
+                                <input type="email" required="true" class="form-control" id="email" name="email" placeholder="Digite seu email...">
+                            </div>
+                            <div class="form-group">
+                                <label for="name">Whatsapp: (opcional)</label>
+                                <input type="text" class="form-control" id="whatsapp" name="whatsapp" placeholder="Digite seu número...">
                             </div>
                             <div class="form-group">
                                 <label for="name">Menssagem:</label>
-                                <textarea class="form-control" name="mensagem" placeholder="Mensagem..."></textarea>
+                                <textarea class="form-control" required="true" name="mensagem" placeholder="Mensagem..."></textarea>
                             </div>
                             <input class="btn" type="submit" name="BTEnvia" value="Enviar">
                         </form>

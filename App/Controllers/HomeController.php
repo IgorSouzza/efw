@@ -17,7 +17,7 @@ class HomeController extends Action
 			$email = new SendEmail;
 			$email->send();
 		}
-		$this->render("index");
+		$this->render("index", null, 'home');
 	}
 
 	public function portfolio()

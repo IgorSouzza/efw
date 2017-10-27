@@ -2,7 +2,6 @@
 
 namespace EFW\Controller;
 use \EFW\Redirect\Redirect;
-use \EFW\Controller\Messages;
 
 class Required
 {
@@ -13,7 +12,7 @@ class Required
 	 * Only insert in database, for example, if all required fields are complete.
 	 * @param array $required Form fields you want required.
 	 */
-	public function require(array $required)
+	public function require(array $required, $destination = null)
 	{
 		$this->values = filter_input_array(INPUT_POST);
 		$error = false;
@@ -26,11 +25,11 @@ class Required
 				}
 			}
 			if($error == true){
-				  Messages::setMessage("Preencha todos os campos!");
+				  Redirect::redirect(null, 'Sucesso!');
 			}
 			else{
 				$this->result = $this->values;
-				if(Redirect::canRedirect('/admin/clientes')){
+				if(Redirect::redirect($destination, 'Sucesso!')){
 					return true;
 				}
 			}

@@ -27,6 +27,7 @@ class SendEmail
 	    //====================================================
 	    $email_conteudo = strip_tags(trim("Nome = {$dados['nome']}")) . "\n"; 
 	    $email_conteudo .= strip_tags(trim("Email = {$dados['email']}")) . "\n"; 
+	    $email_conteudo .= strip_tags(trim("Whatsapp = {$dados['whatsapp']}")) . "\n"; 
 	    $email_conteudo .= strip_tags(trim("Mensagem = {$dados['mensagem']}")) . "\n"; 
 	    //====================================================
 

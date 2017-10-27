@@ -23,4 +23,27 @@ class Container
 		else
 			return NULL;
 	}
+
+	/**
+	 * Save log in Database
+	 * @param  string $type    Type of log, for example: Admin.
+	 * @param  string $message Message of log
+	 */
+	public static function saveLog(string $type, string $message)
+	{
+		if(isset($_SESSION['userlogin']))
+			$fullname = $_SESSION['userlogin']['user_name'] . " " . $_SESSION['userlogin']['user_lastname'];
+		else
+			$fullname = "N/A";
+
+		$class = self::getClass('Log');
+		$class->insert(array(
+			filter_input(INPUT_SERVER, 'REMOTE_ADDR', FILTER_VALIDATE_IP), 
+			filter_input(INPUT_SERVER, 'REQUEST_URI', FILTER_DEFAULT), 
+			filter_input(INPUT_SERVER, 'HTTP_USER_AGENT', FILTER_DEFAULT), 
+			$type,
+			$message, 
+			$fullname
+		));
+	}
 }

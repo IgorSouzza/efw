@@ -14,24 +14,6 @@ define("ADMIN_LEVEL", 3);
 define("BASE_PATH", $_SERVER['DOCUMENT_ROOT'] . "/");
 define("BASE_VIEW", $_SERVER['DOCUMENT_ROOT'] . "/App/Views/");
 
-/*
-* SEO Site information
-*/
-$siteinfo = ['title' => 'Igor Souzza - Criação de Sites, Desenvolvimento e Soluções Web',
-			'title_port' => 'Igor Souzza Portfolio - Criação de Sites, Desenvolvimento e Soluções Web',
-			'site_name' => 'Igor Souzza - Desenvolvimento e Soluções Web', 
-			'site_desc' => 'Criação e Desenvolvimento de Web Sites com extrema qualidade e segurança. É aqui que seus sonhos começam.',
-			'logo' => "public/images/logo.jpg", 
-			'logo2' => "public/images/logo.png", 
-			'url' => 'https://www.igorsouzza.com.br',
-			'google_author' => '117033327238723927777', 
-			'google_publisher' => '106350026213975038404',
-			'fb_app' => '139847073426055',
-			'fb_author' => 'igor.souza079',
-			'fb_publisher' => 'igorsouzzaweb',
-];
-define("SITE_INFO", $siteinfo);
-
 abstract class Bootstrap
 {
 	private $routes;
