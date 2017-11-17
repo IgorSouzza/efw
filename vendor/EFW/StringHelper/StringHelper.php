@@ -20,4 +20,12 @@ class StringHelper
     {
 
     }
+
+    public static function checkPostUrl(string $url)
+    {
+        $url = str_replace("/", "", $url);
+        $url = str_replace(" ", "-", $url);
+        $url = self::checkFileName($url);
+        return $url;
+    }
 }

@@ -22,6 +22,7 @@ class Action
 	{
 		$loader = new \Twig_Loader_Filesystem(BASE_VIEW);
 		$twig = new \Twig_Environment($loader);
+		$url = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
 
 		//Twig global variables
 		if(!empty($_SESSION['userlogin'])){
@@ -32,10 +33,16 @@ class Action
 		}
 		
 		//SEO
-		if(!empty($pageNameInDatabase))
+		if(!empty($pageNameInDatabase)){
 			$this->setSEO($twig, $pageNameInDatabase);
+		}
+
 		if(isset($_SESSION['paginator'])){
 			$twig->addGlobal('paginator', $_SESSION['paginator']);
+		}
+
+		if(strpos($url, 'blog') !== false && strlen($url) > 6){
+			$this->setSEOBlogPost($twig, $url);
 		}
 		//String handling
 		$newStringView = str_replace(".", "/", $view);
@@ -45,6 +52,8 @@ class Action
 			echo $twig->render($newStringView, $data);
 		else
 			echo $twig->render($newStringView, array('' => ''));
+
+		unset($_SESSION['message']);
 	}
 
 	/**
@@ -55,11 +64,11 @@ class Action
 	private function setSEO($twig, $page)
 	{
 		$seoPage = Container::getClass('SeoPage');
-		$seoPageValues = $seoPage->fetchAll(false)[0];
+		$seoPageValues = $seoPage->fetchAll(false, 0, "page", $page)[0];
 
 		$seoGlobal = Container::getClass('seoGlobal');
 		$seoGlobalValues = $seoGlobal->fetchAll(false)[0];
-
+		
 		$twig->addGlobal('title', $seoPageValues['page_title']);
 		$twig->addGlobal('site_desc', $seoPageValues['page_descricao']);
 		$twig->addGlobal('logo','public/images/logo.jpg');
@@ -71,5 +80,13 @@ class Action
 		$twig->addGlobal('fb_app', $seoGlobalValues['global_fb_app']);
 		$twig->addGlobal('fb_author', $seoGlobalValues['global_fb_author']);
 		$twig->addGlobal('fb_publisher', $seoGlobalValues['global_fb_pub']);
+	}
+
+	private function setSEOBlogPost($twig, $url)
+	{
+		$postInfo = Container::getClass('Post');
+		$post = $postInfo->findUrl(basename($url));
+
+		$twig->addGlobal('title', $post['post_title'] . ' - Igor Souzza');		
 	}
 }

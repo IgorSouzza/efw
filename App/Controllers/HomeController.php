@@ -3,6 +3,7 @@
 namespace App\Controllers;
 use \EFW\Controller\Action;
 use \EFW\Email\SendEmail;
+use \EFW\DI\Container;
 
 class HomeController extends Action
 {
@@ -17,11 +18,14 @@ class HomeController extends Action
 			$email = new SendEmail;
 			$email->send();
 		}
-		$this->render("index", null, 'home');
+		
+		Container::saveLog("PageView", "Nova pageview!");
+		$this->render("Institucional.index", null, 'home');
 	}
 
 	public function portfolio()
 	{
-		$this->render("portfolio");
+		Container::saveLog("PageView", "Nova pageview!");
+		$this->render("Institucional.portfolio", null, 'portfolio');
 	}
 }

@@ -22,9 +22,23 @@ abstract class Table
 	* This method trata every string and array to mount
 	* a correctly query.
 	*/
-	public function insert(array $values)
+	public function insert(array $values, string $columUnique = null)
 	{
-		try {
+		$row = 0;
+
+		if(!empty($columUnique)){
+			$url = $values["{$columUnique}"];
+			$query = "SELECT * FROM {$this->table} WHERE post_url = :url";
+			$st = $this->db->prepare($query);
+			$st->bindParam(':url', $url);
+			$st->execute();
+			$row = $st->rowCount();
+		}
+		else{
+			$row = 0;
+		}
+
+		if($row < 1){
 			$str = str_replace(":", "", implode(',',$this->params));
 			$str2 = implode(",", $this->params);
 			$finalValues = array_values($values);
@@ -34,154 +48,47 @@ abstract class Table
 				$stmt->bindParam($param, $finalValues[$i]);
 			}
 			$stmt->execute();
-		} catch (\PDOException $e) {
-			echo $e;
+			return true;
 		}
-		
+		else{
+			return false;
+		}
+	}
+
+	public function addPageView($colum, $value, $url)
+	{
+		$sql = "UPDATE {$this->table} SET {$colum} = :value WHERE post_url = :url";
+		$stmt = $this->db->prepare($sql);
+		$stmt->bindParam(':value', $value);
+		$stmt->bindParam(':url', $url);
+		$stmt->execute();
+		return true;
 	}
 
 	/**
 	 * Return all values from table, in desc.
 	 * @param  bool        $paginate if true, return with paginate logic
+	 * @param  int         $limit items per page
 	 * @param  string|null $colum    Database colum to compare with $word paramter
 	 * @param  string|null $word     Word to compare, if exists, return all values with this word
 	 * @return PDO                
 	 */
-	public function fetchAll(bool $paginate, string $colum = null, string $word = null)
+	public function fetchAll(bool $paginate, int $limit = 10, string $colum = null, string $word = null)
 	{
 		if($paginate === false){
 			if($word == null || $colum == null){
-				$stmt = $this->db->prepare("SELECT * FROM {$this->table}");
-				$stmt->execute();
-
-				$res = $stmt->fetchAll(\PDO::FETCH_ASSOC);
-				return $res;
+				return $this->fetchWithoutPaginate("SELECT * FROM {$this->table}");
 			}
 			else{
-				//string handler to create a query like: SELECT * FROM `site_db`.`site_log` ORDER BY `timestamp` DESC LIMIT 1000;
-				$stmt = $this->db->prepare("SELECT * FROM `{$this->table}` WHERE {$colum} LIKE '%{$word}%' ORDER BY `timestamp` DESC LIMIT 1000;");
-				$stmt->execute();
-
-				$res = $stmt->fetchAll(\PDO::FETCH_ASSOC);
-				return $res;
+				return $this->fetchWithoutPaginate("SELECT * FROM {$this->table} WHERE {$colum} LIKE '%{$word}%'");
 			}
 		}
 		else{
 			if($word == null || $colum == null){
-				$limit = 10;
-				$stmt = $this->db->prepare("SELECT * FROM {$this->table}");
-				$stmt->execute();
-				$total = $stmt->rowCount();
-				$pages = ceil($total / $limit);
-				
-				// What page are we currently on?
-			    $page = min($pages, filter_input(INPUT_GET, 'page', FILTER_VALIDATE_INT, array(
-			        'options' => array(
-			            'default'   => 1,
-			            'min_range' => 1,
-			        ),
-			    )));
-
-			    // Calculate the offset for the query
-			    $offset = ($page - 1)  * $limit;
-
-			    // Some information to display to the user
-			    $start = $offset + 1;
-			    $end = min(($offset + $limit), $total);
-
-			    // The "back" link
-			    $prevlink = ($page > 1) ? "<li class='page-item'><a class='page-link' href='?page=" . ($page-1) . "' tabindex='-1'>Anterior</a></li>" : "<li class='page-item disabled'><a class='page-link' href='#' tabindex='-1'>Anterior</a></li>";
-
-			    // The "forward" link
-			    $nextlink = ($page < $pages) ? "<li class='page-item'>
-			          <a class='page-link' href='?page=" . ($page + 1) . "'>Próxima</a>
-			        </li>" : "<li class='page-item disabled'><a class='page-link' href='#'>Próxima</a></li>";
-
-			    // Display the paging information
-			    $_SESSION['paginator'] = "
-			    <nav aria-label='Page navigation example'>
-			      <ul class='pagination justify-content-center'>
-			        {$prevlink}
-			        Página {$page} de {$pages}
-			        {$nextlink}
-			      </ul>
-			    </nav>
-			    ";
-
-			    // Prepare the paged query
-			    $stmt = $this->db->prepare("SELECT * FROM {$this->table} ORDER BY id DESC LIMIT :limit OFFSET :offset");
-
-			    // Bind the query params
-			    $stmt->bindParam(':limit', $limit, \PDO::PARAM_INT);
-			    $stmt->bindParam(':offset', $offset, \PDO::PARAM_INT);
-			    $stmt->execute();
-
-			    // Do we have any results?
-			    if ($stmt->rowCount() > 0) {
-			        $res = $stmt->fetchAll(\PDO::FETCH_ASSOC);
-					return $res;
-			    } 
-			    else {
-			        return null;
-			    }
+				return $this->fetchWithPaginate("SELECT * FROM {$this->table}", $limit);
 			}
 			else{
-				$limit = 10;
-				$stmt = $this->db->prepare("SELECT* FROM {$this->table} WHERE {$colum} LIKE '%{$word}%'");
-				$stmt->execute();
-				$total = $stmt->rowCount();
-				$pages = ceil($total / $limit);
-				
-				// What page are we currently on?
-			    $page = min($pages, filter_input(INPUT_GET, 'page', FILTER_VALIDATE_INT, array(
-			        'options' => array(
-			            'default'   => 1,
-			            'min_range' => 1,
-			        ),
-			    )));
-
-			    // Calculate the offset for the query
-			    $offset = ($page - 1)  * $limit;
-
-			    // Some information to display to the user
-			    $start = $offset + 1;
-			    $end = min(($offset + $limit), $total);
-
-			    // The "back" link
-			    $prevlink = ($page > 1) ? "<li class='page-item'><a class='page-link' href='?page=" . ($page-1) . "' tabindex='-1'>Anterior</a></li>" : "<li class='page-item disabled'><a class='page-link' href='#' tabindex='-1'>Anterior</a></li>";
-
-			    // The "forward" link
-			    $nextlink = ($page < $pages) ? "<li class='page-item'>
-			          <a class='page-link' href='?page=" . ($page + 1) . "'>Próxima</a>
-			        </li>" : "<li class='page-item disabled'><a class='page-link' href='#'>Próxima</a></li>";
-
-			    // Display the paging information
-			    $_SESSION['paginator'] = "
-			    <nav aria-label='Page navigation example'>
-			      <ul class='pagination justify-content-center'>
-			        {$prevlink}
-			        Página {$page} de {$pages}
-			        {$nextlink}
-			      </ul>
-			    </nav>
-			    ";
-
-			    // Prepare the paged query
-			    $stmt = $this->db->prepare("SELECT* FROM {$this->table} WHERE {$colum} LIKE '%{$word}%' ORDER BY timestamp DESC LIMIT :limit OFFSET :offset");
-
-			    // Bind the query params
-			    $stmt->bindParam(':limit', $limit, \PDO::PARAM_INT);
-			    $stmt->bindParam(':offset', $offset, \PDO::PARAM_INT);
-			    $stmt->execute();
-
-			    // Do we have any results?
-			    if ($stmt->rowCount() > 0) {
-			        $res = $stmt->fetchAll(\PDO::FETCH_ASSOC);
-					return $res;
-			    } 
-			    else {
-			        echo '<p>No results could be displayed.</p>';
-			    }
+				return $this->fetchWithPaginate("SELECT * FROM {$this->table} WHERE {$colum} LIKE '%{$word}%'", $limit, $colum,$word);
 			}
 		}
 	}
@@ -196,6 +103,44 @@ abstract class Table
 		$stmt->execute();
 
 		$res = $stmt->fetch(\PDO::FETCH_ASSOC);
+		return $res;
+	}
+
+	/*
+	 * Find a value from DB
+	 */
+	public function findUrl(string $url)
+	{
+		$stmt = $this->db->prepare("SELECT * FROM {$this->table} WHERE post_url = :url");
+		$stmt->bindParam(":url", $url);
+		$stmt->execute();
+
+		$res = $stmt->fetch(\PDO::FETCH_ASSOC);
+		return $res;
+	}
+
+	/*
+	 * Find a value from DB
+	 */
+	public function findRelated(string $cat)
+	{
+		$stmt = $this->db->prepare("SELECT * FROM {$this->table} WHERE post_category = :cat");
+		$stmt->bindParam(":cat", $cat);
+		$stmt->execute();
+
+		$res = $stmt->fetchAll(\PDO::FETCH_ASSOC);
+		return $res;
+	}
+
+	/*
+	 * Find a value from DB
+	 */
+	public function findView()
+	{
+		$stmt = $this->db->prepare("SELECT * FROM {$this->table} ORDER BY post_pageview DESC LIMIT 3");
+		$stmt->execute();
+
+		$res = $stmt->fetchAll(\PDO::FETCH_ASSOC);
 		return $res;
 	}
 
@@ -224,6 +169,7 @@ abstract class Table
 			$stmt->bindParam(":".$bind, $finalValues[$i]);
 		}
 		$stmt->execute();
+		return true;
 	}
 
 	/*
@@ -270,12 +216,75 @@ abstract class Table
 		return $res;
 	}
 
-	public function getSiteValues()
+	private function fetchWithoutPaginate(string $query)
 	{
-		$stmt = $this->db->prepare("SELECT * FROM efw_base");
+		$stmt = $this->db->prepare($query);
 		$stmt->execute();
 
-		$res = $stmt->fetch(\PDO::FETCH_ASSOC);
+		$res = $stmt->fetchAll(\PDO::FETCH_ASSOC);
 		return $res;
+	}
+
+	private function fetchWithPaginate(string $query, int $limit, string $colum = null, string $word = null)
+	{
+		if($colum == null || $word == null)
+			$stmt = $this->db->prepare($query);
+		else
+			$stmt = $this->db->prepare($query);
+
+		$stmt->execute();
+		$total = $stmt->rowCount();
+		$pages = ceil($total / $limit);
+		
+		// What page are we currently on?
+	    $page = min($pages, filter_input(INPUT_GET, 'page', FILTER_VALIDATE_INT, array(
+	        'options' => array(
+	            'default'   => 1,
+	            'min_range' => 1,
+	        ),
+	    )));
+
+	    // Calculate the offset for the query
+	    $offset = ($page - 1)  * $limit;
+
+	    // Some information to display to the user
+	    $start = $offset + 1;
+	    $end = min(($offset + $limit), $total);
+
+	    // The "back" link
+	    $prevlink = ($page > 1) ? "<li class='page-item'><a class='page-link' href='?page=" . ($page-1) . "' tabindex='-1'>Anterior</a></li>" : "<li class='page-item disabled'><a class='page-link' href='#' tabindex='-1'>Anterior</a></li>";
+
+	    // The "forward" link
+	    $nextlink = ($page < $pages) ? "<li class='page-item'>
+	          <a class='page-link' href='?page=" . ($page + 1) . "'>Próxima</a>
+	        </li>" : "<li class='page-item disabled'><a class='page-link' href='#'>Próxima</a></li>";
+
+	    // Display the paging information
+	    $_SESSION['paginator'] = "
+	    <nav aria-label='Page navigation example'>
+	      <ul class='pagination justify-content-center'>
+	        {$prevlink}
+	        Página {$page} de {$pages}
+	        {$nextlink}
+	      </ul>
+	    </nav>
+	    ";
+
+	    // Prepare the paged query
+	    $stmt = $this->db->prepare($query . " ORDER BY id DESC LIMIT :limit OFFSET :offset");
+
+	    // Bind the query params
+	    $stmt->bindParam(':limit', $limit, \PDO::PARAM_INT);
+	    $stmt->bindParam(':offset', $offset, \PDO::PARAM_INT);
+	    $stmt->execute();
+
+	    // Do we have any results?
+	    if ($stmt->rowCount() > 0) {
+	        $res = $stmt->fetchAll(\PDO::FETCH_ASSOC);
+			return $res;
+	    } 
+	    else {
+	        return null;
+	    }
 	}
 }

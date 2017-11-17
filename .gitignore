@@ -1,6 +1,7 @@
 App/Controllers/*
 App/Models/*
 App/Views/*
+App/Views/index.html.twig
 App/Init
 public/*
 public/css/*
