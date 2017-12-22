@@ -40,7 +40,7 @@ class ComposerStaticInitc435594bfa7f0e42db97b6a79791eef1
         ),
         'EFW\\' => 
         array (
-            0 => 'D:\\Web\\efw\\igor_all\\igor-19-10-17\\vendor',
+            0 => 'D:\\Projetos\\Web\\efw\\igor_all\\igor\\vendor',
         ),
         'App\\' => 
         array (
@@ -59,27 +59,32 @@ class ComposerStaticInitc435594bfa7f0e42db97b6a79791eef1
     );
 
     public static $classMap = array (
+        'App\\Controllers\\AdminBlogController' => __DIR__ . '/../..' . '/App/Controllers/AdminBlogController.php',
         'App\\Controllers\\AdminClientesController' => __DIR__ . '/../..' . '/App/Controllers/AdminClientesController.php',
         'App\\Controllers\\AdminDashController' => __DIR__ . '/../..' . '/App/Controllers/AdminDashController.php',
+        'App\\Controllers\\AdminInstitucionalController' => __DIR__ . '/../..' . '/App/Controllers/AdminInstitucionalController.php',
         'App\\Controllers\\AdminLoginController' => __DIR__ . '/../..' . '/App/Controllers/AdminLoginController.php',
         'App\\Controllers\\AdminLogsController' => __DIR__ . '/../..' . '/App/Controllers/AdminLogsController.php',
+        'App\\Controllers\\BlogController' => __DIR__ . '/../..' . '/App/Controllers/BlogController.php',
         'App\\Controllers\\HomeController' => __DIR__ . '/../..' . '/App/Controllers/HomeController.php',
         'App\\Controllers\\NotFound' => __DIR__ . '/../..' . '/App/Controllers/NotFound.php',
         'App\\Init' => __DIR__ . '/../..' . '/App/Init.php',
+        'App\\Models\\Category' => __DIR__ . '/../..' . '/App/Models/Category.php',
         'App\\Models\\Cliente' => __DIR__ . '/../..' . '/App/Models/Cliente.php',
         'App\\Models\\Log' => __DIR__ . '/../..' . '/App/Models/Log.php',
-        'App\\Models\\SiteBase' => __DIR__ . '/../..' . '/App/Models/SiteBase.php',
+        'App\\Models\\Post' => __DIR__ . '/../..' . '/App/Models/Post.php',
+        'App\\Models\\SeoGlobal' => __DIR__ . '/../..' . '/App/Models/SeoGlobal.php',
+        'App\\Models\\SeoPage' => __DIR__ . '/../..' . '/App/Models/SeoPage.php',
         'App\\Models\\User' => __DIR__ . '/../..' . '/App/Models/User.php',
         'EFW\\Auth\\Auth' => __DIR__ . '/..' . '/EFW/Auth/Auth.php',
+        'EFW\\Auth\\Bcrypt' => __DIR__ . '/..' . '/EFW/Auth/Bcrypt.php',
         'EFW\\Controller\\Action' => __DIR__ . '/..' . '/EFW/Controller/Action.php',
         'EFW\\Controller\\Messages' => __DIR__ . '/..' . '/EFW/Controller/Messages.php',
         'EFW\\Controller\\Required' => __DIR__ . '/..' . '/EFW/Controller/Required.php',
-        'EFW\\Controller\\UserOnline' => __DIR__ . '/..' . '/EFW/Controller/UserOnline.php',
         'EFW\\DB\\Table' => __DIR__ . '/..' . '/EFW/DB/Table.php',
         'EFW\\DI\\Container' => __DIR__ . '/..' . '/EFW/DI/Container.php',
         'EFW\\Email\\SendEmail' => __DIR__ . '/..' . '/EFW/Email/SendEmail.php',
         'EFW\\Init\\Bootstrap' => __DIR__ . '/..' . '/EFW/Init/Bootstrap.php',
-        'EFW\\Redirect\\Redirect' => __DIR__ . '/..' . '/EFW/Redirect/Redirect.php',
         'EFW\\StringHelper\\StringHelper' => __DIR__ . '/..' . '/EFW/StringHelper/StringHelper.php',
         'EFW\\Upload\\Upload' => __DIR__ . '/..' . '/EFW/Upload/Upload.php',
         'Symfony\\Polyfill\\Mbstring\\Mbstring' => __DIR__ . '/..' . '/symfony/polyfill-mbstring/Mbstring.php',

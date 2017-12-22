@@ -1,6 +1,8 @@
 <?php
 
 namespace EFW\Email;
+use \EFW\DI\Container;
+use \EFW\Controller\Messages;
 
 class SendEmail
 {
@@ -39,10 +41,12 @@ class SendEmail
 	    //Enviando o email 
 	    //==================================================== 
 	    if (mail ($email_destinatario, $email_assunto, nl2br($email_conteudo), $email_headers)){ 
-	            #echo "</b>E-Mail enviado com sucesso!</b>"; 
+	            $email_db = Container::getClass("Email");
+	            $email_db->insert($dados);
+	            Messages::setMessage("Mensagem enviada com sucesso! Responderei o mais rápido possível!");
 	    } 
 	    else{ 
-	            #echo "</b>Falha no envio do E-Mail!</b>";
+	            Messages::setMessage("Falha ao enviar o email. Preencha todos os campos!");
 	    } 
 	    //====================================================
 	}

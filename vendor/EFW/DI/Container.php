@@ -36,6 +36,7 @@ class Container
 		else
 			$fullname = "N/A";
 
+		//Change INPUT_SERVER to INPUT_ENV in production
 		$class = self::getClass('Log');
 		$class->insert(array(
 			filter_input(INPUT_SERVER, 'REMOTE_ADDR', FILTER_VALIDATE_IP), 
@@ -45,5 +46,15 @@ class Container
 			$message, 
 			$fullname
 		));
+	}
+
+	public static function addView(string $page)
+	{
+		$class = self::getClass('SeoPage');
+		
+		foreach ($class->fetchAll(false) as $key) {
+			if($page == $key['page'])
+				$class->updateSingle($page, 'page_views', $key['page_views'] + 1);
+		}
 	}
 }

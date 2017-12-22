@@ -6,11 +6,12 @@ use EFW\DI\Container;
 
 class Action
 {
-	private $siteinfo;
+	private $url;
 
 	public function __construct()
 	{
 		session_start();
+		$this->url = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
 	}
 
 	/*
@@ -22,7 +23,6 @@ class Action
 	{
 		$loader = new \Twig_Loader_Filesystem(BASE_VIEW);
 		$twig = new \Twig_Environment($loader);
-		$url = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
 
 		//Twig global variables
 		if(!empty($_SESSION['userlogin'])){
@@ -41,8 +41,8 @@ class Action
 			$twig->addGlobal('paginator', $_SESSION['paginator']);
 		}
 
-		if(strpos($url, 'blog') !== false && strlen($url) > 6){
-			$this->setSEOBlogPost($twig, $url);
+		if(strpos($this->url, 'blog') !== false && strlen($this->url) > 6){
+			$this->setSEOBlogPost($twig, $this->url);
 		}
 		//String handling
 		$newStringView = str_replace(".", "/", $view);
@@ -73,7 +73,8 @@ class Action
 		$twig->addGlobal('site_desc', $seoPageValues['page_descricao']);
 		$twig->addGlobal('logo','public/images/logo.jpg');
 		$twig->addGlobal('logo2', 'public/images/logo.png');
-		$twig->addGlobal('url', $seoGlobalValues['global_url']);
+		$twig->addGlobal('url_base', $seoGlobalValues['global_url']);
+		$twig->addGlobal('url', $seoGlobalValues['global_url'] . $this->url);
 		$twig->addGlobal('site_name', $seoGlobalValues['global_name']);
 		$twig->addGlobal('google_author', $seoGlobalValues['global_google_author']);
 		$twig->addGlobal('google_publisher', $seoGlobalValues['global_google_pub']);
@@ -88,5 +89,11 @@ class Action
 		$post = $postInfo->findUrl(basename($url));
 
 		$twig->addGlobal('title', $post['post_title'] . ' - Igor Souzza');		
+		$twig->addGlobal('site_desc', $post['post_desc']);		
+		$twig->addGlobal('url', $_SERVER['HTTP_HOST'] . $url);		
+		$twig->addGlobal('showAd', false);		
+		$twig->addGlobal('logo', $_SERVER['HTTP_HOST'] . DIRECTORY_SEPARATOR . $post['post_thumb']);		
+		$twig->addGlobal('created', $post['timestamp']);		
+		$twig->addGlobal('updated', $post['updatestamp']);		
 	}
 }

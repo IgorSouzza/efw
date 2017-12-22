@@ -1,6 +1,7 @@
 <?php
 
 namespace EFW\DB;
+use \EFW\Auth\Bcrypt;
 
 abstract class Table
 {
@@ -172,6 +173,16 @@ abstract class Table
 		return true;
 	}
 
+	public function updateSingle(string $page, $colum, $value)
+	{
+		$sql = "UPDATE {$this->table} SET {$colum} = :value WHERE page = :page";
+		$stmt = $this->db->prepare($sql);
+		$stmt->bindParam(":page", $page);
+		$stmt->bindParam(":value", $value);
+		$stmt->execute();
+		return true;
+	}
+
 	/*
 	 * Delete a value from DB.
 	 * @param int $id entity id
@@ -192,13 +203,38 @@ abstract class Table
 	 */
 	public function checkLogin(string $user, string $pass)
 	{
-		$stmt = $this->db->prepare("SELECT * FROM {$this->table} WHERE user_email = :email AND user_pass = :pass");
+		$stmt = $this->db->prepare("SELECT user_pass FROM {$this->table} WHERE user_email = :email");
 		$stmt->bindParam(":email", $user);
-		$stmt->bindParam(":pass", $pass);
 		$stmt->execute();
+		$hash = $stmt->fetch(\PDO::FETCH_ASSOC)['user_pass'];
 
-		$res = $stmt->fetch(\PDO::FETCH_ASSOC);
-		return $res;
+		//60 is the crypt password lenght
+		if(strlen($pass) != 60)
+		{
+			if(Bcrypt::check($pass, $hash))
+			{
+				$stmt2 = $this->db->prepare("SELECT * FROM {$this->table} WHERE user_email = :email AND user_pass = :pass");
+				$stmt2->bindParam(":email", $user);
+				$stmt2->bindParam(":pass", $hash);
+				$stmt2->execute();
+				$res = $stmt2->fetch(\PDO::FETCH_ASSOC);
+				return $res;
+			} 
+			else 
+			{
+				return null;
+			}
+		}
+		elseif(!empty($_COOKIE['is_l']) && strlen($pass) == 60)
+		{
+			$stmt2 = $this->db->prepare("SELECT * FROM {$this->table} WHERE user_email = :email AND user_pass = :pass");
+			$stmt2->bindParam(":email", $user);
+			$stmt2->bindParam(":pass", $pass);
+			$stmt2->execute();
+			$res = $stmt2->fetch(\PDO::FETCH_ASSOC);
+			return $res;
+		}
+		
 	}
 
 	/*
@@ -252,12 +288,12 @@ abstract class Table
 	    $end = min(($offset + $limit), $total);
 
 	    // The "back" link
-	    $prevlink = ($page > 1) ? "<li class='page-item'><a class='page-link' href='?page=" . ($page-1) . "' tabindex='-1'>Anterior</a></li>" : "<li class='page-item disabled'><a class='page-link' href='#' tabindex='-1'>Anterior</a></li>";
+	    $prevlink = ($page > 1) ? "<li class='page-item'><a class='page-link' href='?page=" . ($page-1) . "' tabindex='-1'>Anterior</a></li>" : "<li class='page-item disabled'><a class='page-link' href='#' style='color: #3d3d3d !important;' tabindex='-1'>Anterior</a></li>";
 
 	    // The "forward" link
 	    $nextlink = ($page < $pages) ? "<li class='page-item'>
 	          <a class='page-link' href='?page=" . ($page + 1) . "'>Próxima</a>
-	        </li>" : "<li class='page-item disabled'><a class='page-link' href='#'>Próxima</a></li>";
+	        </li>" : "<li class='page-item disabled'><a class='page-link' style='color: #3d3d3d !important;' href='#'>Próxima</a></li>";
 
 	    // Display the paging information
 	    $_SESSION['paginator'] = "

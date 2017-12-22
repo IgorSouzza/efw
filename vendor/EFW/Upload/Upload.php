@@ -16,8 +16,8 @@ class Upload
     {
         $this->image = $_FILES['img'];
         $this->folder = $folder;
-        $this->uploadDir = "uploads\\" . $folder . "\\";
-        $this->uploadFile = $this->uploadDir . basename(StringHelper::checkFileName($this->image['name']));
+        $this->uploadDir = "uploads" . DIRECTORY_SEPARATOR . "posts". DIRECTORY_SEPARATOR . date("Y") . DIRECTORY_SEPARATOR  . date("m") . DIRECTORY_SEPARATOR . $folder . DIRECTORY_SEPARATOR;
+        $this->uploadFile = $this->uploadDir . rand().basename(StringHelper::checkFileName($this->image['name']));
         $this->fileName = basename(StringHelper::checkFileName($this->image['name']));
         $this->fileType = pathinfo($this->uploadFile, PATHINFO_EXTENSION);
 
@@ -44,6 +44,11 @@ class Upload
     public function getFileDir()
     {
         return $this->uploadFile;
+    }
+
+    public function getFileName()
+    {
+        return $this->fileName;
     }
 
     private function checkDir()

@@ -8,6 +8,8 @@ public/css/*
 public/js/*
 public/img/*
 public/images/*
+uploads/
+uploads/*
 todo.txt
 comandos.txt
 composer.phrar
@@ -17,3 +19,7 @@ sitemap.xml
 sitemap.xml.gz
 sitemap.xsl
 index.php
+grupos.txt
+favicon.ico
+database.sql
+.htaccess

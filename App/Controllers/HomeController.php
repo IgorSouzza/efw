@@ -19,13 +19,13 @@ class HomeController extends Action
 			$email->send();
 		}
 		
-		Container::saveLog("PageView", "Nova pageview!");
+		Container::addView('home');
 		$this->render("Institucional.index", null, 'home');
 	}
 
 	public function portfolio()
 	{
-		Container::saveLog("PageView", "Nova pageview!");
+		Container::addView('portfolio');
 		$this->render("Institucional.portfolio", null, 'portfolio');
 	}
 }
